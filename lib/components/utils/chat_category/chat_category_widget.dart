@@ -33,6 +33,8 @@ class _ChatCategoryWidgetState extends State<ChatCategoryWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ChatCategoryModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

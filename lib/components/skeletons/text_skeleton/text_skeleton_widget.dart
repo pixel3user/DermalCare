@@ -51,6 +51,8 @@ class _TextSkeletonWidgetState extends State<TextSkeletonWidget>
         ],
       ),
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

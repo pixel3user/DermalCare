@@ -1,3 +1,4 @@
+import '/backend/api_requests/api_calls.dart';
 import '/components/chat/empty_chat_state/empty_chat_state_widget.dart';
 import '/components/modals/search_modal/search_modal_widget.dart';
 import '/components/sidebar/sidebar_widget.dart';
@@ -5,6 +6,7 @@ import '/components/utils/attachments/attachments_widget.dart';
 import '/components/utils/base_input_field/base_input_field_widget.dart';
 import '/demo/demo_chat/demo_chat_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'main_widget.dart' show MainWidget;
 import 'package:flutter/material.dart';
 
@@ -31,6 +33,8 @@ class MainModel extends FlutterFlowModel<MainWidget> {
   late AttachmentsModel attachmentsModel;
   // Model for BaseInputField component.
   late BaseInputFieldModel baseInputFieldModel;
+  // Stores action output result for [Backend Call - API (dermacareCall)] action in BaseInputField widget.
+  ApiCallResponse? apiResult;
   // Model for SearchModal component.
   late SearchModalModel searchModalModel;
 

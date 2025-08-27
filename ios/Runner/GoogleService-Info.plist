@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>143419068550-6fq7nu8b3psrsooa770pnqil23oe4s4j.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.143419068550-6fq7nu8b3psrsooa770pnqil23oe4s4j</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>143419068550-4t597i084v44qo4ljjpniigsg98io9cf.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAsgG0mq5tu3kagtIPlxZsQZ9_E5c9xmlM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>143419068550</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.dermalcare.dermalcare</string>
+	<key>PROJECT_ID</key>
+	<string>dermalcare-69</string>
+	<key>STORAGE_BUCKET</key>
+	<string>dermalcare-69.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:143419068550:ios:dc178e971c6da3f1464107</string>
+</dict>
+</plist>

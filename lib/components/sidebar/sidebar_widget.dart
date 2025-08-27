@@ -37,6 +37,8 @@ class _SidebarWidgetState extends State<SidebarWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => SidebarModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -49,7 +51,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: _model.isExtended ? 260.0 : 80.0,
+      width: _model.isCollapse ? 80.0 : 260.0,
       height: MediaQuery.sizeOf(context).height * 1.0,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -73,11 +75,11 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                     size: 20.0,
                   ),
                   onPressed: () async {
-                    _model.isExtended = !_model.isExtended;
+                    _model.isCollapse = !_model.isCollapse;
                     safeSetState(() {});
                   },
                 ),
-                if (_model.isExtended)
+                if (!_model.isCollapse)
                   FlutterFlowIconButton(
                     borderRadius: 8.0,
                     buttonSize: 40.0,
@@ -92,7 +94,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                   ),
               ],
             ),
-            if (!_model.isExtended)
+            if (!_model.isCollapse)
               Align(
                 alignment: AlignmentDirectional(-1.0, 0.0),
                 child: FlutterFlowIconButton(
@@ -108,7 +110,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                   },
                 ),
               ),
-            if (_model.isExtended)
+            if (!_model.isCollapse)
               Expanded(
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -189,7 +191,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                   ].divide(SizedBox(height: 24.0)),
                 ),
               ),
-          ].divide(SizedBox(height: _model.isExtended ? 12.0 : 48.0)),
+          ].divide(SizedBox(height: _model.isCollapse ? 12.0 : 48.0)),
         ),
       ),
     );

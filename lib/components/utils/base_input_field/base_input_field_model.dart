@@ -9,6 +9,10 @@ class BaseInputFieldModel extends FlutterFlowModel<BaseInputFieldWidget> {
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  bool isDataUploading_uploadDataPath = false;
+  FFUploadedFile uploadedLocalFile_uploadDataPath =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl_uploadDataPath = '';
 
   @override
   void initState(BuildContext context) {}

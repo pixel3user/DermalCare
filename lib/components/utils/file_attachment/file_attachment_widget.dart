@@ -32,6 +32,8 @@ class _FileAttachmentWidgetState extends State<FileAttachmentWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => FileAttachmentModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

@@ -45,6 +45,8 @@ class _ImageSkeletonWidgetState extends State<ImageSkeletonWidget>
         ],
       ),
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -57,8 +59,10 @@ class _ImageSkeletonWidgetState extends State<ImageSkeletonWidget>
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 400.0,
-      height: 400.0,
+      width: MediaQuery.sizeOf(context).width < kBreakpointSmall
+          ? (MediaQuery.sizeOf(context).width * 0.7)
+          : 400.0,
+      height: 80.0,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
         borderRadius: BorderRadius.circular(12.0),

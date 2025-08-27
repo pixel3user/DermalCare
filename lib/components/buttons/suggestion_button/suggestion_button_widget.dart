@@ -34,6 +34,8 @@ class _SuggestionButtonWidgetState extends State<SuggestionButtonWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => SuggestionButtonModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

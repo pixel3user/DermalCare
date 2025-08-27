@@ -3,6 +3,7 @@ import '/components/chat/chat_response_a_i/chat_response_a_i_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import 'demo_chat_model.dart';
 export 'demo_chat_model.dart';
 
@@ -40,6 +41,8 @@ class _DemoChatWidgetState extends State<DemoChatWidget> {
         curve: Curves.ease,
       );
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -51,6 +54,8 @@ class _DemoChatWidgetState extends State<DemoChatWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Container(
       constraints: BoxConstraints(
         maxWidth: 752.0,
@@ -67,20 +72,37 @@ class _DemoChatWidgetState extends State<DemoChatWidget> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  if (responsiveVisibility(
+                    context: context,
+                    phone: false,
+                    tablet: false,
+                    tabletLandscape: false,
+                    desktop: false,
+                  ))
+                    Align(
+                      alignment: AlignmentDirectional(1.0, 0.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.network(
+                          'https://picsum.photos/seed/449/600',
+                          width: 200.0,
+                          height: 200.0,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   wrapWithModel(
                     model: _model.chatRequestModel,
                     updateCallback: () => safeSetState(() {}),
                     child: ChatRequestWidget(
-                      text:
-                          'Hello, how are you? This is my dog :)\nCan you put the crown on its head please?',
+                      text: '',
                     ),
                   ),
                   wrapWithModel(
                     model: _model.chatResponseAIModel,
                     updateCallback: () => safeSetState(() {}),
                     child: ChatResponseAIWidget(
-                      content:
-                          'I’m doing great! Thanks for sharing your dog’s picture! I’ll edit the image now and add a crown to your dog’s head. Give me a moment...',
+                      content: FFAppState().chatboxResponse,
                       isResponding: widget.isFetchingResponse,
                     ),
                   ),

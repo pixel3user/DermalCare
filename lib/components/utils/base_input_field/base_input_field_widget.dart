@@ -1,8 +1,9 @@
+import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import 'package:easy_debounce/easy_debounce.dart';
+import '/flutter_flow/upload_data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'base_input_field_model.dart';
@@ -38,6 +39,8 @@ class _BaseInputFieldWidgetState extends State<BaseInputFieldWidget> {
 
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -66,14 +69,6 @@ class _BaseInputFieldWidgetState extends State<BaseInputFieldWidget> {
               child: TextFormField(
                 controller: _model.textController,
                 focusNode: _model.textFieldFocusNode,
-                onChanged: (_) => EasyDebounce.debounce(
-                  '_model.textController',
-                  Duration(milliseconds: 2000),
-                  () async {
-                    FFAppState().chatboxText = '';
-                    safeSetState(() {});
-                  },
-                ),
                 autofocus: false,
                 obscureText: false,
                 decoration: InputDecoration(
@@ -167,7 +162,68 @@ class _BaseInputFieldWidgetState extends State<BaseInputFieldWidget> {
                   children: [
                     FFButtonWidget(
                       onPressed: () async {
-                        await widget.onNewFileAttached?.call();
+                        final selectedMedia =
+                            await selectMediaWithSourceBottomSheet(
+                          context: context,
+                          maxWidth: 800.00,
+                          maxHeight: 800.00,
+                          imageQuality: 50,
+                          allowPhoto: true,
+                          allowVideo: true,
+                        );
+                        if (selectedMedia != null &&
+                            selectedMedia.every((m) =>
+                                validateFileFormat(m.storagePath, context))) {
+                          safeSetState(() =>
+                              _model.isDataUploading_uploadDataPath = true);
+                          var selectedUploadedFiles = <FFUploadedFile>[];
+
+                          var downloadUrls = <String>[];
+                          try {
+                            showUploadMessage(
+                              context,
+                              'Uploading file...',
+                              showLoading: true,
+                            );
+                            selectedUploadedFiles = selectedMedia
+                                .map((m) => FFUploadedFile(
+                                      name: m.storagePath.split('/').last,
+                                      bytes: m.bytes,
+                                      height: m.dimensions?.height,
+                                      width: m.dimensions?.width,
+                                      blurHash: m.blurHash,
+                                    ))
+                                .toList();
+
+                            downloadUrls = (await Future.wait(
+                              selectedMedia.map(
+                                (m) async =>
+                                    await uploadData(m.storagePath, m.bytes),
+                              ),
+                            ))
+                                .where((u) => u != null)
+                                .map((u) => u!)
+                                .toList();
+                          } finally {
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            _model.isDataUploading_uploadDataPath = false;
+                          }
+                          if (selectedUploadedFiles.length ==
+                                  selectedMedia.length &&
+                              downloadUrls.length == selectedMedia.length) {
+                            safeSetState(() {
+                              _model.uploadedLocalFile_uploadDataPath =
+                                  selectedUploadedFiles.first;
+                              _model.uploadedFileUrl_uploadDataPath =
+                                  downloadUrls.first;
+                            });
+                            showUploadMessage(context, 'Success!');
+                          } else {
+                            safeSetState(() {});
+                            showUploadMessage(context, 'Failed to upload data');
+                            return;
+                          }
+                        }
                       },
                       text: 'Attach File',
                       icon: Icon(

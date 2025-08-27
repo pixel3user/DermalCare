@@ -36,6 +36,8 @@ class _ChatResponseAIWidgetState extends State<ChatResponseAIWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ChatResponseAIModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -92,7 +94,10 @@ class _ChatResponseAIWidgetState extends State<ChatResponseAIWidget> {
                     children: [
                       Container(
                         constraints: BoxConstraints(
-                          maxWidth: 520.0,
+                          maxWidth: MediaQuery.sizeOf(context).width <
+                                  kBreakpointSmall
+                              ? (MediaQuery.sizeOf(context).width * 0.7)
+                              : 540.0,
                         ),
                         decoration: BoxDecoration(),
                         child: Padding(
@@ -123,19 +128,26 @@ class _ChatResponseAIWidgetState extends State<ChatResponseAIWidget> {
                           )),
                         ),
                       ),
-                      Container(
-                        constraints: BoxConstraints(
-                          maxHeight: 300.0,
-                        ),
-                        decoration: BoxDecoration(),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.network(
-                            'https://s3-alpha-sig.figma.com/img/8edc/82de/970652999e82613f3c3525d1db5fb12e?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=ZRj5dT~6d7fDMVwj3YUz-pSV4HXvCFKdDKg2YFXBx-Lvkc7tSbdyrr-AD544XC9ZhBsUKWRLXdkjPgQbXhJ-X7m~RvzTBoGt0d~n2Yf1WWfKe2p1dnGEMFpGfQFpc509M14xzsAWE2gOqevBrwirDkMA4S3Xkul0zobeqJQioE8hpZfJu-N6AEzPhs~zKruKlKQc9Vxo4mqqxEQ3aoqX-UMo~AM7yNpICK0N1MURBZOA22LXwNBWsLLwzzb~4S0CgosDHwy~XX~jM-f0JaKQ4S4MumfUjIqo8-9PvKBb3A6QQHiJ8k8n8fl9MabqUvJF71xP8ihoRjjqjkHevtgzOA__',
-                            fit: BoxFit.contain,
+                      if (responsiveVisibility(
+                        context: context,
+                        phone: false,
+                        tablet: false,
+                        tabletLandscape: false,
+                        desktop: false,
+                      ))
+                        Container(
+                          constraints: BoxConstraints(
+                            maxHeight: 300.0,
+                          ),
+                          decoration: BoxDecoration(),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              '',
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
-                      ),
                       wrapWithModel(
                         model: _model.chatResponseFeedbackModel,
                         updateCallback: () => safeSetState(() {}),

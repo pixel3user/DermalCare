@@ -31,6 +31,8 @@ class _TemplateWidgetState extends State<TemplateWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => TemplateModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

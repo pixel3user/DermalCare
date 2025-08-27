@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class SidebarModel extends FlutterFlowModel<SidebarWidget> {
   ///  Local state fields for this component.
 
-  bool isExtended = true;
+  bool isCollapse = true;
 
   ///  State fields for stateful widgets in this component.
 

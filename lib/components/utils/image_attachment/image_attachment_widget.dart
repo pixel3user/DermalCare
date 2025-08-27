@@ -29,6 +29,8 @@ class _ImageAttachmentWidgetState extends State<ImageAttachmentWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ImageAttachmentModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

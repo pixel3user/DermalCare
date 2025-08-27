@@ -32,6 +32,8 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => ChatItemModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

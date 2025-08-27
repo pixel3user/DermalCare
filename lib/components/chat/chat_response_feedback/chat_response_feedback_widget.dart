@@ -27,6 +27,8 @@ class _ChatResponseFeedbackWidgetState
   void initState() {
     super.initState();
     _model = createModel(context, () => ChatResponseFeedbackModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

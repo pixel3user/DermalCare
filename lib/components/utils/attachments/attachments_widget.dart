@@ -30,6 +30,8 @@ class _AttachmentsWidgetState extends State<AttachmentsWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => AttachmentsModel());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

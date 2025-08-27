@@ -35,6 +35,8 @@ class _ChatWidgetState extends State<ChatWidget> {
         curve: Curves.ease,
       );
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override

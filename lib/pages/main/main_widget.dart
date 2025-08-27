@@ -1,14 +1,21 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/api_requests/api_calls.dart';
 import '/components/chat/empty_chat_state/empty_chat_state_widget.dart';
 import '/components/modals/search_modal/search_modal_widget.dart';
 import '/components/sidebar/sidebar_widget.dart';
 import '/components/utils/attachments/attachments_widget.dart';
 import '/components/utils/base_input_field/base_input_field_widget.dart';
 import '/demo/demo_chat/demo_chat_widget.dart';
+import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'main_model.dart';
 export 'main_model.dart';
 
@@ -22,15 +29,58 @@ class MainWidget extends StatefulWidget {
   State<MainWidget> createState() => _MainWidgetState();
 }
 
-class _MainWidgetState extends State<MainWidget> {
+class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   late MainModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void initState() {
     super.initState();
     _model = createModel(context, () => MainModel());
+
+    animationsMap.addAll({
+      'sidebarOnPageLoadAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          MoveEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: Offset(-100.0, 0.0),
+            end: Offset(0.0, 0.0),
+          ),
+        ],
+      ),
+      'emptyChatStateOnPageLoadAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          FadeEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: 0.2,
+            end: 1.0,
+          ),
+        ],
+      ),
+      'baseInputFieldOnPageLoadAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          MoveEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 600.0.ms,
+            begin: Offset(0.0, 100.0),
+            end: Offset(0.0, 0.0),
+          ),
+        ],
+      ),
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -42,6 +92,8 @@ class _MainWidgetState extends State<MainWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -57,25 +109,33 @@ class _MainWidgetState extends State<MainWidget> {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  wrapWithModel(
-                    model: _model.sidebarModel,
-                    updateCallback: () => safeSetState(() {}),
-                    child: SidebarWidget(
-                      onNewChat: () async {
-                        _model.showEmptyChat = true;
-                        safeSetState(() {});
-                      },
-                      onItemSelect: () async {
-                        _model.showEmptyChat = false;
-                        _model.showResponseLoading = false;
-                        safeSetState(() {});
-                      },
-                      onSearch: () async {
-                        _model.showSearchModal = true;
-                        safeSetState(() {});
-                      },
+                  if (responsiveVisibility(
+                    context: context,
+                    phone: false,
+                  ))
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: wrapWithModel(
+                        model: _model.sidebarModel,
+                        updateCallback: () => safeSetState(() {}),
+                        child: SidebarWidget(
+                          onNewChat: () async {
+                            _model.showEmptyChat = true;
+                            safeSetState(() {});
+                          },
+                          onItemSelect: () async {
+                            _model.showEmptyChat = false;
+                            _model.showResponseLoading = false;
+                            safeSetState(() {});
+                          },
+                          onSearch: () async {
+                            _model.showSearchModal = true;
+                            safeSetState(() {});
+                          },
+                        ),
+                      ).animateOnPageLoad(
+                          animationsMap['sidebarOnPageLoadAnimation']!),
                     ),
-                  ),
                   Expanded(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -134,16 +194,37 @@ class _MainWidgetState extends State<MainWidget> {
                                   borderRadius: BorderRadius.circular(24.0),
                                 ),
                               ),
-                              Container(
-                                width: 36.0,
-                                height: 36.0,
-                                clipBehavior: Clip.antiAlias,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Image.asset(
-                                  'assets/images/Ellipse_1.png',
-                                  fit: BoxFit.cover,
+                              AuthUserStreamWidget(
+                                builder: (context) => InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    GoRouter.of(context).prepareAuthEvent();
+                                    await authManager.signOut();
+                                    GoRouter.of(context)
+                                        .clearRedirectLocation();
+
+                                    context.goNamedAuth(
+                                        LoginWidget.routeName, context.mounted);
+                                  },
+                                  child: Container(
+                                    width: 36.0,
+                                    height: 36.0,
+                                    clipBehavior: Clip.antiAlias,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: CachedNetworkImage(
+                                      fadeInDuration:
+                                          Duration(milliseconds: 500),
+                                      fadeOutDuration:
+                                          Duration(milliseconds: 500),
+                                      imageUrl: currentUserPhoto,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ].divide(SizedBox(width: 16.0)),
@@ -156,25 +237,35 @@ class _MainWidgetState extends State<MainWidget> {
                                 return Align(
                                   alignment: AlignmentDirectional(0.0, 0.0),
                                   child: Container(
-                                    child: wrapWithModel(
-                                      model: _model.emptyChatStateModel,
-                                      updateCallback: () => safeSetState(() {}),
-                                      child: EmptyChatStateWidget(
-                                        onItemPress: () async {
-                                          _model.showEmptyChat = false;
-                                          safeSetState(() {});
-                                        },
-                                      ),
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          5.0, 0.0, 5.0, 0.0),
+                                      child: wrapWithModel(
+                                        model: _model.emptyChatStateModel,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: EmptyChatStateWidget(
+                                          onItemPress: () async {
+                                            _model.showEmptyChat = false;
+                                            safeSetState(() {});
+                                          },
+                                        ),
+                                      ).animateOnPageLoad(animationsMap[
+                                          'emptyChatStateOnPageLoadAnimation']!),
                                     ),
                                   ),
                                 );
                               } else {
-                                return wrapWithModel(
-                                  model: _model.demoChatModel,
-                                  updateCallback: () => safeSetState(() {}),
-                                  child: DemoChatWidget(
-                                    isFetchingResponse:
-                                        _model.showResponseLoading,
+                                return Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      5.0, 0.0, 5.0, 0.0),
+                                  child: wrapWithModel(
+                                    model: _model.demoChatModel,
+                                    updateCallback: () => safeSetState(() {}),
+                                    child: DemoChatWidget(
+                                      isFetchingResponse:
+                                          _model.showResponseLoading,
+                                    ),
                                   ),
                                 );
                               }
@@ -191,42 +282,81 @@ class _MainWidgetState extends State<MainWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   if (_model.showAttachments)
-                                    wrapWithModel(
-                                      model: _model.attachmentsModel,
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          5.0, 0.0, 5.0, 0.0),
+                                      child: wrapWithModel(
+                                        model: _model.attachmentsModel,
+                                        updateCallback: () =>
+                                            safeSetState(() {}),
+                                        child: AttachmentsWidget(
+                                          onFileDelete: () async {
+                                            _model.showAttachments = false;
+                                            safeSetState(() {});
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        5.0, 0.0, 5.0, 0.0),
+                                    child: wrapWithModel(
+                                      model: _model.baseInputFieldModel,
                                       updateCallback: () => safeSetState(() {}),
-                                      child: AttachmentsWidget(
-                                        onFileDelete: () async {
-                                          _model.showAttachments = false;
+                                      child: BaseInputFieldWidget(
+                                        onNewMessage: () async {
+                                          _model.showEmptyChat = false;
+                                          _model.showResponseLoading = true;
+                                          safeSetState(() {});
+                                          FFAppState().chatboxText = _model
+                                              .baseInputFieldModel
+                                              .textController
+                                              .text;
+                                          safeSetState(() {});
+                                          safeSetState(() {
+                                            _model.baseInputFieldModel
+                                                .textController
+                                                ?.clear();
+                                          });
+                                          _model.apiResult =
+                                              await DermacareCallCall.call(
+                                            apiText: FFAppState().chatboxText,
+                                            apiMedia: _model.baseInputFieldModel
+                                                            .uploadedFileUrl_uploadDataPath !=
+                                                        ''
+                                                ? _model.baseInputFieldModel
+                                                    .uploadedFileUrl_uploadDataPath
+                                                : '',
+                                            authToken: currentJwtToken,
+                                          );
+
+                                          if ((_model.apiResult?.succeeded ??
+                                              true)) {
+                                            FFAppState().chatboxResponse =
+                                                getJsonField(
+                                              (_model.apiResult?.jsonBody ??
+                                                  ''),
+                                              r'''$.answer''',
+                                            ).toString();
+                                            safeSetState(() {});
+                                          } else {
+                                            FFAppState().chatboxResponse =
+                                                'An Error has occured.';
+                                            safeSetState(() {});
+                                          }
+
+                                          _model.showResponseLoading = false;
+                                          safeSetState(() {});
+
+                                          safeSetState(() {});
+                                        },
+                                        onNewFileAttached: () async {
+                                          _model.showAttachments = true;
                                           safeSetState(() {});
                                         },
                                       ),
-                                    ),
-                                  wrapWithModel(
-                                    model: _model.baseInputFieldModel,
-                                    updateCallback: () => safeSetState(() {}),
-                                    child: BaseInputFieldWidget(
-                                      onNewMessage: () async {
-                                        _model.showEmptyChat = false;
-                                        _model.showResponseLoading = true;
-                                        safeSetState(() {});
-                                        safeSetState(() {
-                                          _model.baseInputFieldModel
-                                              .textController
-                                              ?.clear();
-                                        });
-                                        await Future.delayed(
-                                          Duration(
-                                            milliseconds: 5000,
-                                          ),
-                                        );
-                                        _model.showResponseLoading = false;
-                                        safeSetState(() {});
-                                      },
-                                      onNewFileAttached: () async {
-                                        _model.showAttachments = true;
-                                        safeSetState(() {});
-                                      },
-                                    ),
+                                    ).animateOnPageLoad(animationsMap[
+                                        'baseInputFieldOnPageLoadAnimation']!),
                                   ),
                                 ].divide(SizedBox(height: 8.0)),
                               ),
