@@ -234,8 +234,9 @@ class _SigninWidgetState extends State<SigninWidget> {
                                   ),
                                 ),
                                 FFButtonWidget(
-                                  onPressed: () {
-                                    print('Button pressed ...');
+                                  onPressed: () async {
+                                    _model.showEmailForm = false;
+                                    safeSetState(() {});
                                   },
                                   text: 'Continue with Email',
                                   icon: Icon(
@@ -505,7 +506,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                 ),
                                 Builder(
                                   builder: (context) {
-                                    if (_model.showEmailForum) {
+                                    if (_model.showEmailForm) {
                                       return Column(
                                         mainAxisSize: MainAxisSize.max,
                                         crossAxisAlignment:
@@ -585,8 +586,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                                 AlignmentDirectional(0.0, 0.0),
                                             child: FFButtonWidget(
                                               onPressed: () async {
-                                                _model.showEmailForum =
-                                                    !_model.showEmailForum;
+                                                _model.showEmailForm = false;
                                                 safeSetState(() {});
                                               },
                                               text: 'Continue with Email',
@@ -923,8 +923,8 @@ class _SigninWidgetState extends State<SigninWidget> {
                                                 AlignmentDirectional(0.0, 0.0),
                                             child: FFButtonWidget(
                                               onPressed: () async {
-                                                _model.showEmailForum =
-                                                    !_model.showEmailForum;
+                                                _model.showEmailForm =
+                                                    !_model.showEmailForm;
                                                 safeSetState(() {});
                                               },
                                               text: 'Continue with Email',

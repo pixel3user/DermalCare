@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class SigninModel extends FlutterFlowModel<SigninWidget> {
   ///  Local state fields for this page.
-  /// Otp login forum
-  bool showEmailForum = true;
+  /// Otp login form
+  bool showEmailForm = true;
 
   ///  State fields for stateful widgets in this page.
 
