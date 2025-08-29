@@ -411,16 +411,13 @@ class _SigninWidgetState extends State<SigninWidget> {
                         child: Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               32.0, 64.0, 32.0, 48.0),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.vertical,
-                            child: Flex(
-                              direction: Axis.vertical,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Expanded(
-                                  child: Align(
-                                    alignment: AlignmentDirectional(0.0, 0.0),
-                                    child: Column(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: Align(
+                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                  child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -1154,8 +1151,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                               ],
                             ),
                           ),
-                        ),
-                      );
+                        );
                     }
                   },
                 ),
