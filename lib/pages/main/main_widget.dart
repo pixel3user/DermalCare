@@ -3,10 +3,12 @@ import '/backend/api_requests/api_calls.dart';
 import '/components/chat/empty_chat_state/empty_chat_state_widget.dart';
 import '/components/modals/search_modal/search_modal_widget.dart';
 import '/components/sidebar/sidebar_widget.dart';
+import '/components/sidebar_mobile/sidebar_mobile_widget.dart';
 import '/components/utils/attachments/attachments_widget.dart';
 import '/components/utils/base_input_field/base_input_field_widget.dart';
 import '/demo/demo_chat/demo_chat_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -102,6 +104,18 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        drawer: Drawer(
+          elevation: 16.0,
+          child: wrapWithModel(
+            model: _model.sidebarMobileModel,
+            updateCallback: () => safeSetState(() {}),
+            child: SidebarMobileWidget(
+              onNewChat: () async {},
+              onSearch: () async {},
+              onItemSelect: () async {},
+            ),
+          ),
+        ),
         body: SafeArea(
           top: true,
           child: Stack(
@@ -146,86 +160,128 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                               24.0, 24.0, 24.0, 8.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              FFButtonWidget(
-                                onPressed: () {
-                                  print('Button pressed ...');
-                                },
-                                text: 'Share',
-                                icon: Icon(
-                                  Icons.share,
-                                  size: 16.0,
-                                ),
-                                options: FFButtonOptions(
-                                  height: 36.0,
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 0.0),
-                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        font: GoogleFonts.interTight(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .labelMedium
-                                                  .fontStyle,
-                                        ),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .labelMedium
-                                            .fontStyle,
-                                      ),
-                                  elevation: 0.0,
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).accent4,
-                                    width: 1.0,
+                              Container(
+                                decoration: BoxDecoration(),
+                                child: Visibility(
+                                  visible: responsiveVisibility(
+                                    context: context,
+                                    tablet: false,
+                                    tabletLandscape: false,
+                                    desktop: false,
                                   ),
-                                  borderRadius: BorderRadius.circular(24.0),
+                                  child: FlutterFlowIconButton(
+                                    borderRadius: 8.0,
+                                    buttonSize: 40.0,
+                                    icon: Icon(
+                                      Icons.menu,
+                                      color: FlutterFlowTheme.of(context).info,
+                                      size: 20.0,
+                                    ),
+                                    onPressed: () async {
+                                      scaffoldKey.currentState!.openDrawer();
+                                    },
+                                  ),
                                 ),
                               ),
-                              AuthUserStreamWidget(
-                                builder: (context) => InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    GoRouter.of(context).prepareAuthEvent();
-                                    await authManager.signOut();
-                                    GoRouter.of(context)
-                                        .clearRedirectLocation();
-
-                                    context.goNamedAuth(
-                                        LoginWidget.routeName, context.mounted);
-                                  },
-                                  child: Container(
-                                    width: 36.0,
-                                    height: 36.0,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  FFButtonWidget(
+                                    onPressed: () {
+                                      print('Button pressed ...');
+                                    },
+                                    text: 'Share',
+                                    icon: Icon(
+                                      Icons.share,
+                                      size: 16.0,
                                     ),
-                                    child: CachedNetworkImage(
-                                      fadeInDuration:
-                                          Duration(milliseconds: 500),
-                                      fadeOutDuration:
-                                          Duration(milliseconds: 500),
-                                      imageUrl: currentUserPhoto,
-                                      fit: BoxFit.cover,
+                                    options: FFButtonOptions(
+                                      height: 36.0,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 0.0, 16.0, 0.0),
+                                      iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.interTight(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      elevation: 0.0,
+                                      borderSide: BorderSide(
+                                        color: FlutterFlowTheme.of(context)
+                                            .accent4,
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(24.0),
                                     ),
                                   ),
-                                ),
+                                  AuthUserStreamWidget(
+                                    builder: (context) => InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        GoRouter.of(context).prepareAuthEvent();
+                                        await authManager.signOut();
+                                        GoRouter.of(context)
+                                            .clearRedirectLocation();
+
+                                        context.pushNamedAuth(
+                                          HomeWidget.routeName,
+                                          context.mounted,
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                            ),
+                                          },
+                                        );
+                                      },
+                                      child: Container(
+                                        width: 36.0,
+                                        height: 36.0,
+                                        clipBehavior: Clip.antiAlias,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: CachedNetworkImage(
+                                          fadeInDuration:
+                                              Duration(milliseconds: 500),
+                                          fadeOutDuration:
+                                              Duration(milliseconds: 500),
+                                          imageUrl: currentUserPhoto,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ].divide(SizedBox(width: 5.0)),
                               ),
                             ].divide(SizedBox(width: 16.0)),
                           ),

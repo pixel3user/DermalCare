@@ -2,6 +2,7 @@ import '/backend/api_requests/api_calls.dart';
 import '/components/chat/empty_chat_state/empty_chat_state_widget.dart';
 import '/components/modals/search_modal/search_modal_widget.dart';
 import '/components/sidebar/sidebar_widget.dart';
+import '/components/sidebar_mobile/sidebar_mobile_widget.dart';
 import '/components/utils/attachments/attachments_widget.dart';
 import '/components/utils/base_input_field/base_input_field_widget.dart';
 import '/demo/demo_chat/demo_chat_widget.dart';
@@ -37,6 +38,8 @@ class MainModel extends FlutterFlowModel<MainWidget> {
   ApiCallResponse? apiResult;
   // Model for SearchModal component.
   late SearchModalModel searchModalModel;
+  // Model for sidebarMobile component.
+  late SidebarMobileModel sidebarMobileModel;
 
   @override
   void initState(BuildContext context) {
@@ -46,6 +49,7 @@ class MainModel extends FlutterFlowModel<MainWidget> {
     attachmentsModel = createModel(context, () => AttachmentsModel());
     baseInputFieldModel = createModel(context, () => BaseInputFieldModel());
     searchModalModel = createModel(context, () => SearchModalModel());
+    sidebarMobileModel = createModel(context, () => SidebarMobileModel());
   }
 
   @override
@@ -56,5 +60,6 @@ class MainModel extends FlutterFlowModel<MainWidget> {
     attachmentsModel.dispose();
     baseInputFieldModel.dispose();
     searchModalModel.dispose();
+    sidebarMobileModel.dispose();
   }
 }

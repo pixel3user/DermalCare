@@ -76,13 +76,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? MainWidget() : LoginWidget(),
+          appStateNotifier.loggedIn ? MainWidget() : HomeWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? MainWidget() : LoginWidget(),
+              appStateNotifier.loggedIn ? MainWidget() : HomeWidget(),
         ),
         FFRoute(
           name: TemplateWidget.routeName,
@@ -103,6 +103,26 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: SigninWidget.routeName,
           path: SigninWidget.routePath,
           builder: (context, params) => SigninWidget(),
+        ),
+        FFRoute(
+          name: HomeWidget.routeName,
+          path: HomeWidget.routePath,
+          builder: (context, params) => HomeWidget(),
+        ),
+        FFRoute(
+          name: FeaturesWidget.routeName,
+          path: FeaturesWidget.routePath,
+          builder: (context, params) => FeaturesWidget(),
+        ),
+        FFRoute(
+          name: AboutWidget.routeName,
+          path: AboutWidget.routePath,
+          builder: (context, params) => AboutWidget(),
+        ),
+        FFRoute(
+          name: PricingWidget.routeName,
+          path: PricingWidget.routePath,
+          builder: (context, params) => PricingWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -273,7 +293,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
-            return '/login';
+            return '/home';
           }
           return null;
         },
