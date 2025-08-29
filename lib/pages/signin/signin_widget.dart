@@ -66,9 +66,7 @@ class _SigninWidgetState extends State<SigninWidget> {
               children: [
                 Builder(
                   builder: (context) {
-                    if (MediaQuery.sizeOf(context).width < kBreakpointSmall
-                        ? true
-                        : false) {
+                    if (MediaQuery.sizeOf(context).width < kBreakpointSmall) {
                       return Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(
                             32.0, 64.0, 32.0, 48.0),
