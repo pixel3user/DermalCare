@@ -93,7 +93,9 @@ class _EmptyChatStateWidgetState extends State<EmptyChatStateWidget> {
           ),
         ),
         Container(
-          width: 620.0,
+          width: MediaQuery.sizeOf(context).width < kBreakpointSmall
+              ? (MediaQuery.sizeOf(context).width * 0.95)
+              : 620.0,
           constraints: BoxConstraints(
             maxHeight: 160.0,
           ),
@@ -127,7 +129,7 @@ class _EmptyChatStateWidgetState extends State<EmptyChatStateWidget> {
                       model: _model.suggestionButtonModel2,
                       updateCallback: () => safeSetState(() {}),
                       child: SuggestionButtonWidget(
-                        label: 'Generate image',
+                        label: 'Image',
                         icon: Icon(
                           Icons.grade,
                           color: FlutterFlowTheme.of(context).primary,
@@ -142,7 +144,7 @@ class _EmptyChatStateWidgetState extends State<EmptyChatStateWidget> {
                       model: _model.suggestionButtonModel3,
                       updateCallback: () => safeSetState(() {}),
                       child: SuggestionButtonWidget(
-                        label: 'Brainstorm ideas',
+                        label: 'Brainstorm',
                         icon: Icon(
                           Icons.lightbulb_rounded,
                           color: FlutterFlowTheme.of(context).primary,
