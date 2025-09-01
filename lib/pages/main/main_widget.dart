@@ -285,7 +285,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                             ).toString();
                                             FFAppState()
                                                 .updateChatHistoryAtIndex(
-                                              FFAppState().chatHistory.length,
+                                              FFAppState().chatHistory.length - 1,
                                               (_) => <String, String?>{
                                                 'query':
                                                     FFAppState().chatboxText,
