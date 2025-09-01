@@ -22,6 +22,8 @@ class MainModel extends FlutterFlowModel<MainWidget> {
 
   bool showResponseLoading = false;
 
+  int chatAppendIndex = 0;
+
   ///  State fields for stateful widgets in this page.
 
   // Model for Sidebar component.

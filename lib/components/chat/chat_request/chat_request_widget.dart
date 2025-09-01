@@ -48,7 +48,9 @@ class _ChatRequestWidgetState extends State<ChatRequestWidget> {
         wrapWithModel(
           model: _model.chatBubbleModel,
           updateCallback: () => safeSetState(() {}),
-          child: ChatBubbleWidget(),
+          child: ChatBubbleWidget(
+            text: widget.text,
+          ),
         ),
         if (responsiveVisibility(
           context: context,

@@ -253,11 +253,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                               .textController
                                               .text;
                                           FFAppState().addToChatHistory(<String,
-                                              dynamic>{
-                                            _model
-                                                .baseInputFieldModel
-                                                .textController
-                                                .text: <String, dynamic>{},
+                                              String?>{
+                                            'query': FFAppState().chatboxText,
+                                            'response': '',
                                           });
                                           safeSetState(() {});
                                           safeSetState(() {
@@ -287,10 +285,12 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                             ).toString();
                                             FFAppState()
                                                 .updateChatHistoryAtIndex(
-                                              -1,
-                                              (_) => <String, dynamic>{
-                                                FFAppState().chatboxText:
-                                                    _model.apiResult,
+                                              FFAppState().chatHistory.length,
+                                              (_) => <String, String?>{
+                                                'query':
+                                                    FFAppState().chatboxText,
+                                                'response': FFAppState()
+                                                    .chatboxResponse,
                                               },
                                             );
                                             safeSetState(() {});
