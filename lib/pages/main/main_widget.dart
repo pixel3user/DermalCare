@@ -287,10 +287,14 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                             ).toString();
                                             FFAppState()
                                                 .updateChatHistoryAtIndex(
-                                              -1,
+                                              FFAppState()
+                                                      .chatHistory.length -
+                                                  1,
                                               (_) => <String, dynamic>{
-                                                FFAppState().chatboxText:
-                                                    _model.apiResult,
+                                                FFAppState()
+                                                    .chatboxText:
+                                                    FFAppState()
+                                                        .chatboxResponse,
                                               },
                                             );
                                             safeSetState(() {});

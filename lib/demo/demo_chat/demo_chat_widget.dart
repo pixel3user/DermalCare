@@ -72,35 +72,66 @@ class _DemoChatWidgetState extends State<DemoChatWidget> {
 
                   return Column(
                     mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children:
-                        List.generate(chatHistory.length, (chatHistoryIndex) {
-                      final chatHistoryItem = chatHistory[chatHistoryIndex];
-                      return Visibility(
-                        visible: responsiveVisibility(
-                          context: context,
-                          phone: false,
-                          tablet: false,
-                          tabletLandscape: false,
-                          desktop: false,
-                        ),
-                        child: Align(
-                          alignment: AlignmentDirectional(1.0, 0.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              'https://picsum.photos/seed/449/600',
-                              width: 200.0,
-                              height: 200.0,
-                              fit: BoxFit.cover,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: List.generate(chatHistory.length,
+                        (chatHistoryIndex) {
+                      final chatHistoryItem =
+                          chatHistory[chatHistoryIndex] as Map;
+                      final userMessage =
+                          chatHistoryItem.keys.first.toString();
+                      final botMessage =
+                          chatHistoryItem.values.first;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Align(
+                            alignment: AlignmentDirectional(1.0, 0.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  12.0, 8.0, 12.0, 8.0),
+                              child: Text(
+                                userMessage,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.interTight(),
+                                      letterSpacing: 0.0,
+                                    ),
+                              ),
                             ),
                           ),
-                        ),
+                          Align(
+                            alignment: AlignmentDirectional(-1.0, 0.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  12.0, 8.0, 12.0, 8.0),
+                              child: Text(
+                                botMessage?.toString() ?? '',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.interTight(),
+                                      letterSpacing: 0.0,
+                                    ),
+                              ),
+                            ),
+                          ),
+                        ].divide(SizedBox(height: 8.0)),
                       );
                     })
-                            .divide(SizedBox(height: 24.0))
-                            .addToStart(SizedBox(height: 12.0))
-                            .addToEnd(SizedBox(height: 24.0)),
+                        .divide(SizedBox(height: 24.0))
+                        .addToStart(SizedBox(height: 12.0))
+                        .addToEnd(SizedBox(height: 24.0)),
                   );
                 },
               ),
