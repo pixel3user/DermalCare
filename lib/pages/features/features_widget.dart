@@ -64,29 +64,9 @@ class _FeaturesWidgetState extends State<FeaturesWidget> {
                           Container(
                             decoration: BoxDecoration(),
                           ),
-                          Container(
-                            decoration: BoxDecoration(),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 0.0, 24.0, 0.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/photo-1690233662564-f599cc764cca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTY0NTg0NzV8&ixlib=rb-4.1.0&q=80&w=1080',
-                                    width: 150.0,
-                                    height: 24.0,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ].divide(SizedBox(width: 8.0)),
-                              ),
-                            ),
-                          ),
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(
-                                40.0, 0.0, 40.0, 0.0),
+                                40.0, 50.0, 40.0, 0.0),
                             child: Text(
                               'Powerful AI Features \nfor Modern Dermatology',
                               textAlign: TextAlign.center,

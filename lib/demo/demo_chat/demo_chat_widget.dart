@@ -1,5 +1,3 @@
-import '/components/chat/chat_request/chat_request_widget.dart';
-import '/components/chat/chat_response_a_i/chat_response_a_i_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -68,48 +66,43 @@ class _DemoChatWidgetState extends State<DemoChatWidget> {
           children: [
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (responsiveVisibility(
-                    context: context,
-                    phone: false,
-                    tablet: false,
-                    tabletLandscape: false,
-                    desktop: false,
-                  ))
-                    Align(
-                      alignment: AlignmentDirectional(1.0, 0.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.network(
-                          'https://picsum.photos/seed/449/600',
-                          width: 200.0,
-                          height: 200.0,
-                          fit: BoxFit.cover,
+              child: Builder(
+                builder: (context) {
+                  final chatHistory = FFAppState().chatHistory.toList();
+
+                  return Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children:
+                        List.generate(chatHistory.length, (chatHistoryIndex) {
+                      final chatHistoryItem = chatHistory[chatHistoryIndex];
+                      return Visibility(
+                        visible: responsiveVisibility(
+                          context: context,
+                          phone: false,
+                          tablet: false,
+                          tabletLandscape: false,
+                          desktop: false,
                         ),
-                      ),
-                    ),
-                  wrapWithModel(
-                    model: _model.chatRequestModel,
-                    updateCallback: () => safeSetState(() {}),
-                    child: ChatRequestWidget(
-                      text: '',
-                    ),
-                  ),
-                  wrapWithModel(
-                    model: _model.chatResponseAIModel,
-                    updateCallback: () => safeSetState(() {}),
-                    child: ChatResponseAIWidget(
-                      content: FFAppState().chatboxResponse,
-                      isResponding: widget.isFetchingResponse,
-                    ),
-                  ),
-                ]
-                    .divide(SizedBox(height: 24.0))
-                    .addToStart(SizedBox(height: 12.0))
-                    .addToEnd(SizedBox(height: 24.0)),
+                        child: Align(
+                          alignment: AlignmentDirectional(1.0, 0.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              'https://picsum.photos/seed/449/600',
+                              width: 200.0,
+                              height: 200.0,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    })
+                            .divide(SizedBox(height: 24.0))
+                            .addToStart(SizedBox(height: 12.0))
+                            .addToEnd(SizedBox(height: 24.0)),
+                  );
+                },
               ),
             ),
           ],

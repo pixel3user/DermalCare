@@ -1,5 +1,6 @@
 import '/components/footer_widget.dart';
 import '/components/navbar_widget.dart';
+import '/components/signupcomponent_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'home_widget.dart' show HomeWidget;
@@ -10,18 +11,22 @@ class HomeModel extends FlutterFlowModel<HomeWidget> {
 
   // Model for navbar component.
   late NavbarModel navbarModel;
+  // Model for signupcomponent component.
+  late SignupcomponentModel signupcomponentModel;
   // Model for footer component.
   late FooterModel footerModel;
 
   @override
   void initState(BuildContext context) {
     navbarModel = createModel(context, () => NavbarModel());
+    signupcomponentModel = createModel(context, () => SignupcomponentModel());
     footerModel = createModel(context, () => FooterModel());
   }
 
   @override
   void dispose() {
     navbarModel.dispose();
+    signupcomponentModel.dispose();
     footerModel.dispose();
   }
 }

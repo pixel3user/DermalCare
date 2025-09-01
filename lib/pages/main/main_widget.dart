@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/components/chat/empty_chat_state/empty_chat_state_widget.dart';
+import '/components/header_widget.dart';
 import '/components/modals/search_modal/search_modal_widget.dart';
 import '/components/sidebar/sidebar_widget.dart';
 import '/components/sidebar_mobile/sidebar_mobile_widget.dart';
@@ -8,12 +9,8 @@ import '/components/utils/attachments/attachments_widget.dart';
 import '/components/utils/base_input_field/base_input_field_widget.dart';
 import '/demo/demo_chat/demo_chat_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import '/index.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -110,9 +107,22 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
             model: _model.sidebarMobileModel,
             updateCallback: () => safeSetState(() {}),
             child: SidebarMobileWidget(
-              onNewChat: () async {},
-              onSearch: () async {},
-              onItemSelect: () async {},
+              onNewChat: () async {
+                Navigator.pop(context);
+                _model.showEmptyChat = true;
+                safeSetState(() {});
+              },
+              onSearch: () async {
+                _model.showSearchModal = true;
+                safeSetState(() {});
+                Navigator.pop(context);
+              },
+              onItemSelect: () async {
+                Navigator.pop(context);
+                _model.showEmptyChat = false;
+                _model.showResponseLoading = false;
+                safeSetState(() {});
+              },
             ),
           ),
         ),
@@ -155,136 +165,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              24.0, 24.0, 24.0, 8.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(),
-                                child: Visibility(
-                                  visible: responsiveVisibility(
-                                    context: context,
-                                    tablet: false,
-                                    tabletLandscape: false,
-                                    desktop: false,
-                                  ),
-                                  child: FlutterFlowIconButton(
-                                    borderRadius: 8.0,
-                                    buttonSize: 40.0,
-                                    icon: Icon(
-                                      Icons.menu,
-                                      color: FlutterFlowTheme.of(context).info,
-                                      size: 20.0,
-                                    ),
-                                    onPressed: () async {
-                                      scaffoldKey.currentState!.openDrawer();
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
-                                    },
-                                    text: 'Share',
-                                    icon: Icon(
-                                      Icons.share,
-                                      size: 16.0,
-                                    ),
-                                    options: FFButtonOptions(
-                                      height: 36.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .labelMedium
-                                          .override(
-                                            font: GoogleFonts.interTight(
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .labelMedium
-                                                      .fontStyle,
-                                            ),
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .labelMedium
-                                                    .fontStyle,
-                                          ),
-                                      elevation: 0.0,
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .accent4,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(24.0),
-                                    ),
-                                  ),
-                                  AuthUserStreamWidget(
-                                    builder: (context) => InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
-                                        GoRouter.of(context).prepareAuthEvent();
-                                        await authManager.signOut();
-                                        GoRouter.of(context)
-                                            .clearRedirectLocation();
-
-                                        context.pushNamedAuth(
-                                          HomeWidget.routeName,
-                                          context.mounted,
-                                          extra: <String, dynamic>{
-                                            kTransitionInfoKey: TransitionInfo(
-                                              hasTransition: true,
-                                              transitionType:
-                                                  PageTransitionType.fade,
-                                            ),
-                                          },
-                                        );
-                                      },
-                                      child: Container(
-                                        width: 36.0,
-                                        height: 36.0,
-                                        clipBehavior: Clip.antiAlias,
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: CachedNetworkImage(
-                                          fadeInDuration:
-                                              Duration(milliseconds: 500),
-                                          fadeOutDuration:
-                                              Duration(milliseconds: 500),
-                                          imageUrl: currentUserPhoto,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ].divide(SizedBox(width: 5.0)),
-                              ),
-                            ].divide(SizedBox(width: 16.0)),
-                          ),
+                        wrapWithModel(
+                          model: _model.headerModel,
+                          updateCallback: () => safeSetState(() {}),
+                          child: HeaderWidget(),
                         ),
                         Expanded(
                           child: Builder(
@@ -368,6 +252,13 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                               .baseInputFieldModel
                                               .textController
                                               .text;
+                                          FFAppState().addToChatHistory(<String,
+                                              dynamic>{
+                                            _model
+                                                .baseInputFieldModel
+                                                .textController
+                                                .text: <String, dynamic>{},
+                                          });
                                           safeSetState(() {});
                                           safeSetState(() {
                                             _model.baseInputFieldModel
@@ -394,6 +285,14 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                                   ''),
                                               r'''$.answer''',
                                             ).toString();
+                                            FFAppState()
+                                                .updateChatHistoryAtIndex(
+                                              -1,
+                                              (_) => <String, dynamic>{
+                                                FFAppState().chatboxText:
+                                                    _model.apiResult,
+                                              },
+                                            );
                                             safeSetState(() {});
                                           } else {
                                             FFAppState().chatboxResponse =

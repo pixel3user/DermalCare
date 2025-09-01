@@ -46,6 +46,41 @@ class FFAppState extends ChangeNotifier {
     _authTokenState = value;
     prefs.setString('ff_authTokenState', value);
   }
+
+  dynamic _cart;
+  dynamic get cart => _cart;
+  set cart(dynamic value) {
+    _cart = value;
+  }
+
+  List<dynamic> _chatHistory = [];
+  List<dynamic> get chatHistory => _chatHistory;
+  set chatHistory(List<dynamic> value) {
+    _chatHistory = value;
+  }
+
+  void addToChatHistory(dynamic value) {
+    chatHistory.add(value);
+  }
+
+  void removeFromChatHistory(dynamic value) {
+    chatHistory.remove(value);
+  }
+
+  void removeAtIndexFromChatHistory(int index) {
+    chatHistory.removeAt(index);
+  }
+
+  void updateChatHistoryAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    chatHistory[index] = updateFn(_chatHistory[index]);
+  }
+
+  void insertAtIndexInChatHistory(int index, dynamic value) {
+    chatHistory.insert(index, value);
+  }
 }
 
 void _safeInit(Function() initializeField) {

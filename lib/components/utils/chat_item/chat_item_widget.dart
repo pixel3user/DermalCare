@@ -50,35 +50,45 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
       cursor: SystemMouseCursors.click ?? MouseCursor.defer,
       child: Align(
         alignment: AlignmentDirectional(-1.0, 0.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: _model.mouseRegionHovered
-                ? FlutterFlowTheme.of(context).accent4
-                : Color(0x00000000),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Align(
-            alignment: AlignmentDirectional(-1.0, 0.0),
-            child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
-              child: Text(
-                valueOrDefault<String>(
-                  widget.itemLabel,
-                  'Text',
-                ),
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      font: GoogleFonts.interTight(
+        child: InkWell(
+          splashColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () async {
+            await widget.onItemSelect?.call();
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: _model.mouseRegionHovered
+                  ? FlutterFlowTheme.of(context).accent4
+                  : Color(0x00000000),
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: Align(
+              alignment: AlignmentDirectional(-1.0, 0.0),
+              child: Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                child: Text(
+                  valueOrDefault<String>(
+                    widget.itemLabel,
+                    'Text',
+                  ),
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        font: GoogleFonts.interTight(
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                        ),
+                        letterSpacing: 0.0,
                         fontWeight:
                             FlutterFlowTheme.of(context).bodyMedium.fontWeight,
                         fontStyle:
                             FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       ),
-                      letterSpacing: 0.0,
-                      fontWeight:
-                          FlutterFlowTheme.of(context).bodyMedium.fontWeight,
-                      fontStyle:
-                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                    ),
+                ),
               ),
             ),
           ),

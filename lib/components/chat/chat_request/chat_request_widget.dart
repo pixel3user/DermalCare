@@ -1,7 +1,6 @@
 import '/components/chat/chat_bubble/chat_bubble_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'chat_request_model.dart';
 export 'chat_request_model.dart';
 
@@ -43,17 +42,13 @@ class _ChatRequestWidgetState extends State<ChatRequestWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
         wrapWithModel(
           model: _model.chatBubbleModel,
           updateCallback: () => safeSetState(() {}),
-          child: ChatBubbleWidget(
-            text: FFAppState().chatboxText,
-          ),
+          child: ChatBubbleWidget(),
         ),
         if (responsiveVisibility(
           context: context,

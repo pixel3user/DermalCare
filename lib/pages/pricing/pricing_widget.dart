@@ -64,30 +64,11 @@ class _PricingWidgetState extends State<PricingWidget> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Container(),
-                          Container(
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 0.0, 24.0, 0.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Image.asset(
-                                    'assets/images/photo-1523349945440-436fbc94fdde?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTY0NjAyMjd8&ixlib=rb-4.1.0&q=80&w=1080',
-                                    width: 150.0,
-                                    height: 24.0,
-                                    fit: BoxFit.contain,
-                                  ),
-                                ].divide(SizedBox(width: 8.0)),
-                              ),
-                            ),
-                          ),
                           Align(
                             alignment: AlignmentDirectional(0.0, 1.0),
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  24.0, 0.0, 24.0, 0.0),
+                                  24.0, 60.0, 24.0, 0.0),
                               child: Container(
                                 width: double.infinity,
                                 constraints: BoxConstraints(

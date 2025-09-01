@@ -7,3 +7,5 @@ export '/pages/home/home_widget.dart' show HomeWidget;
 export '/pages/features/features_widget.dart' show FeaturesWidget;
 export '/pages/about/about_widget.dart' show AboutWidget;
 export '/pages/pricing/pricing_widget.dart' show PricingWidget;
+export '/pages/store/store_widget.dart' show StoreWidget;
+export '/pages/profile_page/profile_page_widget.dart' show ProfilePageWidget;

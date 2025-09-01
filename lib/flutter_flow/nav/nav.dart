@@ -92,6 +92,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: MainWidget.routeName,
           path: MainWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => MainWidget(),
         ),
         FFRoute(
@@ -123,6 +124,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: PricingWidget.routeName,
           path: PricingWidget.routePath,
           builder: (context, params) => PricingWidget(),
+        ),
+        FFRoute(
+          name: StoreWidget.routeName,
+          path: StoreWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => StoreWidget(),
+        ),
+        FFRoute(
+          name: ProfilePageWidget.routeName,
+          path: ProfilePageWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => ProfilePageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
