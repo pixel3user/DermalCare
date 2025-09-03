@@ -201,7 +201,9 @@ class _DemoChatWidgetState extends State<DemoChatWidget>
                                   ),
                                   Builder(
                                     builder: (context) {
-                                      if (widget.isFetchingResponse) {
+                                      if (widget.isFetchingResponse &&
+                                          xHistoryIndex ==
+                                              xHistory.length - 1) {
                                         return Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
