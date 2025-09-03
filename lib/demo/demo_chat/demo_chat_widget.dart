@@ -112,24 +112,29 @@ class _DemoChatWidgetState extends State<DemoChatWidget>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: List.generate(xHistory.length, (xHistoryIndex) {
                       final xHistoryItem = xHistory[xHistoryIndex];
-                      final mediaPath = getJsonField(
-                        xHistoryItem,
-                        r'''$.mediaPath''',
-                      );
+                      final mediaPath =
+                          xHistoryItem['mediaPath'] as String?;
                       return Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          if (mediaPath != null &&
-                              mediaPath.toString().isNotEmpty)
+                          if (mediaPath?.isNotEmpty ?? false)
                             Align(
                               alignment: AlignmentDirectional(1.0, 0.0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: Image.network(
-                                  mediaPath.toString(),
+                                  mediaPath!,
                                   width: 200.0,
                                   height: 200.0,
                                   fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Container(
+                                    width: 200.0,
+                                    height: 200.0,
+                                    color: Colors.grey,
+                                    alignment: Alignment.center,
+                                    child: const Icon(Icons.broken_image),
+                                  ),
                                 ),
                               ),
                             ),
