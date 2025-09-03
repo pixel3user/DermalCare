@@ -256,6 +256,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                               String?>{
                                             'query': FFAppState().chatboxText,
                                             'response': '',
+                                            'mediaPath': _model
+                                                .baseInputFieldModel
+                                                .uploadedFileUrl_uploadDataPath,
                                           });
                                           safeSetState(() {});
                                           safeSetState(() {
@@ -267,8 +270,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                               await DermacareCallCall.call(
                                             apiText: FFAppState().chatboxText,
                                             apiMedia: _model.baseInputFieldModel
-                                                            .uploadedFileUrl_uploadDataPath !=
-                                                        ''
+                                                    .uploadedFileUrl_uploadDataPath
+                                                    .isNotEmpty
                                                 ? _model.baseInputFieldModel
                                                     .uploadedFileUrl_uploadDataPath
                                                 : '',
@@ -277,11 +280,10 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
 
                                           if ((_model.apiResult?.succeeded ??
                                               true)) {
-                                            if (_model.baseInputFieldModel
-                                                            .uploadedFileUrl_uploadDataPath !=
-                                                        ''
-                                                ? true
-                                                : false) {
+                                            if (_model
+                                                .baseInputFieldModel
+                                                .uploadedFileUrl_uploadDataPath
+                                                .isNotEmpty) {
                                               FFAppState().chatboxResponse =
                                                   getJsonField(
                                                 (_model.apiResult?.jsonBody ??
@@ -290,7 +292,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                               ).toString();
                                               FFAppState()
                                                   .updateChatHistoryAtIndex(
-                                                FFAppState().chatHistory.length,
+                                                FFAppState().chatHistory.length - 1,
                                                 (_) => <String, String?>{
                                                   'query':
                                                       FFAppState().chatboxText,
@@ -311,7 +313,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                               ).toString();
                                               FFAppState()
                                                   .updateChatHistoryAtIndex(
-                                                FFAppState().chatHistory.length,
+                                                FFAppState().chatHistory.length - 1,
                                                 (_) => <String, String?>{
                                                   'query':
                                                       FFAppState().chatboxText,
