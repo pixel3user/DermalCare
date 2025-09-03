@@ -115,19 +115,20 @@ class _DemoChatWidgetState extends State<DemoChatWidget>
                       return Column(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          if (responsiveVisibility(
-                            context: context,
-                            phone: false,
-                            tablet: false,
-                            tabletLandscape: false,
-                            desktop: false,
-                          ))
+                          if (getJsonField(
+                                xHistoryItem,
+                                r'''$.mediaPath''',
+                              ) !=
+                              null)
                             Align(
                               alignment: AlignmentDirectional(1.0, 0.0),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(8.0),
                                 child: Image.network(
-                                  'https://picsum.photos/seed/161/600',
+                                  getJsonField(
+                                    xHistoryItem,
+                                    r'''$.mediaPath''',
+                                  ).toString(),
                                   width: 200.0,
                                   height: 200.0,
                                   fit: BoxFit.cover,

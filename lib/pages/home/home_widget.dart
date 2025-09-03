@@ -3,6 +3,7 @@ import '/components/navbar_widget.dart';
 import '/components/signupcomponent_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_video_player.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -276,38 +277,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                                 ),
                               ].divide(SizedBox(height: 24.0)),
                             ),
-                            if (responsiveVisibility(
-                              context: context,
-                              phone: false,
-                            ))
-                              Container(
-                                width: double.infinity,
-                                height: 400.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: Image.network(
-                                      'https://images.unsplash.com/photo-1738586653960-7206dbbeb7e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTYyMDF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTY0NTU4OTJ8&ixlib=rb-4.1.0&q=80&w=1080',
-                                    ).image,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 20.0,
-                                      color: Color(0x40000000),
-                                      offset: Offset(
-                                        0.0,
-                                        10.0,
-                                      ),
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                              ),
                           ].divide(SizedBox(height: 32.0)),
                         ),
                       ),
+                    ),
+                    FlutterFlowVideoPlayer(
+                      path:
+                          'assets/videos/Premium_dermatology_tech_202509031733.mp4',
+                      videoType: VideoType.asset,
+                      autoPlay: false,
+                      looping: true,
+                      showControls: true,
+                      allowFullScreen: true,
+                      allowPlaybackSpeedMenu: false,
                     ),
                     if (responsiveVisibility(
                       context: context,

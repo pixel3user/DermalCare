@@ -277,31 +277,60 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
 
                                           if ((_model.apiResult?.succeeded ??
                                               true)) {
-                                            FFAppState().chatboxResponse =
-                                                getJsonField(
-                                              (_model.apiResult?.jsonBody ??
-                                                  ''),
-                                              r'''$.answer''',
-                                            ).toString();
-                                            FFAppState()
-                                                .updateChatHistoryAtIndex(
-                                              FFAppState().chatHistory.length - 1,
-                                              (_) => <String, String?>{
-                                                'query':
-                                                    FFAppState().chatboxText,
-                                                'response': FFAppState()
-                                                    .chatboxResponse,
-                                              },
-                                            );
+                                            if (_model.baseInputFieldModel
+                                                            .uploadedFileUrl_uploadDataPath !=
+                                                        ''
+                                                ? true
+                                                : false) {
+                                              FFAppState().chatboxResponse =
+                                                  getJsonField(
+                                                (_model.apiResult?.jsonBody ??
+                                                    ''),
+                                                r'''$.answer''',
+                                              ).toString();
+                                              FFAppState()
+                                                  .updateChatHistoryAtIndex(
+                                                FFAppState().chatHistory.length,
+                                                (_) => <String, String?>{
+                                                  'query':
+                                                      FFAppState().chatboxText,
+                                                  'response': FFAppState()
+                                                      .chatboxResponse,
+                                                  'mediaPath': _model
+                                                      .baseInputFieldModel
+                                                      .uploadedFileUrl_uploadDataPath,
+                                                },
+                                              );
+                                              safeSetState(() {});
+                                            } else {
+                                              FFAppState().chatboxResponse =
+                                                  getJsonField(
+                                                (_model.apiResult?.jsonBody ??
+                                                    ''),
+                                                r'''$.answer''',
+                                              ).toString();
+                                              FFAppState()
+                                                  .updateChatHistoryAtIndex(
+                                                FFAppState().chatHistory.length,
+                                                (_) => <String, String?>{
+                                                  'query':
+                                                      FFAppState().chatboxText,
+                                                  'response': FFAppState()
+                                                      .chatboxResponse,
+                                                },
+                                              );
+                                              safeSetState(() {});
+                                            }
+
+                                            _model.showResponseLoading = false;
                                             safeSetState(() {});
                                           } else {
                                             FFAppState().chatboxResponse =
                                                 'An Error has occured.';
                                             safeSetState(() {});
+                                            _model.showResponseLoading = false;
+                                            safeSetState(() {});
                                           }
-
-                                          _model.showResponseLoading = false;
-                                          safeSetState(() {});
 
                                           safeSetState(() {});
                                         },
