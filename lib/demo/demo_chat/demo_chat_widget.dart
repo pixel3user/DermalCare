@@ -127,13 +127,34 @@ class _DemoChatWidgetState extends State<DemoChatWidget>
                                   width: 200.0,
                                   height: 200.0,
                                   fit: BoxFit.cover,
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Container(
+                                      width: 200.0,
+                                      height: 200.0,
+                                      color: FlutterFlowTheme.of(context).accent4,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress.expectedTotalBytes != null
+                                              ? loadingProgress.cumulativeBytesLoaded /
+                                                  loadingProgress.expectedTotalBytes!
+                                              : null,
+                                          strokeWidth: 2.0,
+                                        ),
+                                      ),
+                                    );
+                                  },
                                   errorBuilder: (context, error, stackTrace) =>
                                       Container(
                                     width: 200.0,
                                     height: 200.0,
-                                    color: Colors.grey,
+                                    color: FlutterFlowTheme.of(context).accent4,
                                     alignment: Alignment.center,
-                                    child: const Icon(Icons.broken_image),
+                                    child: Icon(
+                                      Icons.broken_image,
+                                      color: FlutterFlowTheme.of(context).secondaryText,
+                                      size: 48.0,
+                                    ),
                                   ),
                                 ),
                               ),

@@ -5,7 +5,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'base_input_field_model.dart';
 export 'base_input_field_model.dart';
 
@@ -265,12 +267,110 @@ class _BaseInputFieldWidgetState extends State<BaseInputFieldWidget> {
                       ),
                     ),
                     FFButtonWidget(
-                      onPressed: () {
-                        print('Button pressed ...');
+                      onPressed: () async {
+                        // Show loading message
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(kIsWeb 
+                                ? 'Initializing speech recognition...' 
+                                : 'Requesting microphone permission...'),
+                            backgroundColor: FlutterFlowTheme.of(context).primary,
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                        
+                        // Add a small delay to let the user see the message
+                        await Future.delayed(Duration(milliseconds: 500));
+                        
+                        // Always try to initialize speech recognition
+                        await _model.initSpeech();
+                        
+                        // For web, provide additional guidance if speech recognition fails
+                        if (kIsWeb && !_model.isSpeechAvailable) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Please allow microphone access when prompted by your browser. If you don\'t see a permission dialog, check your browser\'s microphone settings.'),
+                              backgroundColor: FlutterFlowTheme.of(context).primary,
+                              duration: Duration(seconds: 4),
+                            ),
+                          );
+                        }
+                        
+                        if (_model.isSpeechAvailable) {
+                          _model.toggleListening();
+                          safeSetState(() {});
+                          
+                          // Show feedback message
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(_model.isListening 
+                                  ? '🎤 Listening for speech... Speak now!' 
+                                  : '✅ Speech recognition stopped'),
+                              backgroundColor: _model.isListening 
+                                  ? FlutterFlowTheme.of(context).primary
+                                  : FlutterFlowTheme.of(context).secondaryText,
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                        } else {
+                          String message;
+                          SnackBarAction? action;
+                          
+                          if (kIsWeb) {
+                            message = 'Speech recognition is not available. Please ensure you are using Chrome, Edge, or Safari with microphone access enabled. Some browsers may not support speech recognition.';
+                            action = SnackBarAction(
+                              label: 'Retry',
+                              textColor: Colors.white,
+                              onPressed: () async {
+                                await _model.initSpeech();
+                                if (_model.isSpeechAvailable) {
+                                  _model.toggleListening();
+                                  safeSetState(() {});
+                                }
+                              },
+                            );
+                          } else {
+                            // Check if permission is permanently denied
+                            try {
+                              var status = await Permission.microphone.status;
+                              if (status.isPermanentlyDenied) {
+                                message = 'Microphone access is permanently denied. Please enable it in device settings to use voice features.';
+                                action = SnackBarAction(
+                                  label: 'Settings',
+                                  textColor: Colors.white,
+                                  onPressed: () async {
+                                    await openAppSettings();
+                                  },
+                                );
+                              } else {
+                                message = 'Microphone permission denied. Please grant microphone access to use voice features.';
+                                action = SnackBarAction(
+                                  label: 'Settings',
+                                  textColor: Colors.white,
+                                  onPressed: () async {
+                                    await openAppSettings();
+                                  },
+                                );
+                              }
+                            } catch (e) {
+                              message = 'Speech recognition is not available on this platform.';
+                            }
+                          }
+                          
+                          // Show error message if speech recognition is not available
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(message),
+                              backgroundColor: FlutterFlowTheme.of(context).error,
+                              duration: Duration(seconds: 5),
+                              action: action,
+                            ),
+                          );
+                        }
                       },
-                      text: 'Voice Mode',
+                      text: _model.isListening ? 'Listening...' : (_model.isSpeechAvailable ? 'Voice Mode' : 'Voice Mode'),
                       icon: Icon(
-                        Icons.mic_sharp,
+                        _model.isListening ? Icons.mic_off : Icons.mic_sharp,
                         size: 18.0,
                       ),
                       options: FFButtonOptions(
@@ -279,8 +379,12 @@ class _BaseInputFieldWidgetState extends State<BaseInputFieldWidget> {
                             12.0, 0.0, 16.0, 0.0),
                         iconPadding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                        iconColor: FlutterFlowTheme.of(context).primary,
-                        color: Colors.transparent,
+                        iconColor: _model.isListening 
+                            ? FlutterFlowTheme.of(context).error
+                            : FlutterFlowTheme.of(context).primary,
+                        color: _model.isListening 
+                            ? FlutterFlowTheme.of(context).error.withOpacity(0.1)
+                            : Colors.transparent,
                         textStyle:
                             FlutterFlowTheme.of(context).labelSmall.override(
                                   font: GoogleFonts.interTight(
@@ -301,7 +405,9 @@ class _BaseInputFieldWidgetState extends State<BaseInputFieldWidget> {
                                 ),
                         elevation: 0.0,
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).accent4,
+                          color: _model.isListening 
+                              ? FlutterFlowTheme.of(context).error
+                              : FlutterFlowTheme.of(context).accent4,
                           width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(24.0),

@@ -28,6 +28,14 @@ String get currentPhoneNumber =>
 
 String get currentJwtToken => _currentJwtToken ?? '';
 
+/// Initialize JWT token for current user if logged in
+Future<void> initializeJwtToken() async {
+  final user = FirebaseAuth.instance.currentUser;
+  if (user != null) {
+    _currentJwtToken = await user.getIdToken();
+  }
+}
+
 bool get currentUserEmailVerified => currentUser?.emailVerified ?? false;
 
 /// Create a Stream that listens to the current user's JWT Token, since Firebase
@@ -35,7 +43,15 @@ bool get currentUserEmailVerified => currentUser?.emailVerified ?? false;
 String? _currentJwtToken;
 final jwtTokenStream = FirebaseAuth.instance
     .idTokenChanges()
-    .map((user) async => _currentJwtToken = await user?.getIdToken())
+    .asyncMap((user) async {
+      if (user != null) {
+        _currentJwtToken = await user.getIdToken();
+        return _currentJwtToken;
+      } else {
+        _currentJwtToken = null;
+        return null;
+      }
+    })
     .asBroadcastStream();
 
 DocumentReference? get currentUserReference =>

@@ -13,11 +13,14 @@ class ChatResponseAIWidget extends StatefulWidget {
     super.key,
     String? content,
     bool? isResponding,
+    String? imageUrl,
   })  : this.content = content ?? 'This is AI response.',
-        this.isResponding = isResponding ?? false;
+        this.isResponding = isResponding ?? false,
+        this.imageUrl = imageUrl;
 
   final String content;
   final bool isResponding;
+  final String? imageUrl;
 
   @override
   State<ChatResponseAIWidget> createState() => _ChatResponseAIWidgetState();
@@ -128,13 +131,7 @@ class _ChatResponseAIWidgetState extends State<ChatResponseAIWidget> {
                           )),
                         ),
                       ),
-                      if (responsiveVisibility(
-                        context: context,
-                        phone: false,
-                        tablet: false,
-                        tabletLandscape: false,
-                        desktop: false,
-                      ))
+                      if (widget.imageUrl != null && widget.imageUrl!.isNotEmpty)
                         Container(
                           constraints: BoxConstraints(
                             maxHeight: 300.0,
@@ -143,8 +140,33 @@ class _ChatResponseAIWidgetState extends State<ChatResponseAIWidget> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.network(
-                              '',
+                              widget.imageUrl!,
                               fit: BoxFit.contain,
+                              loadingBuilder: (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Container(
+                                  height: 200.0,
+                                  color: FlutterFlowTheme.of(context).accent4,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      value: loadingProgress.expectedTotalBytes != null
+                                          ? loadingProgress.cumulativeBytesLoaded /
+                                              loadingProgress.expectedTotalBytes!
+                                          : null,
+                                      strokeWidth: 2.0,
+                                    ),
+                                  ),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) => Container(
+                                height: 200.0,
+                                color: FlutterFlowTheme.of(context).accent4,
+                                child: Icon(
+                                  Icons.broken_image,
+                                  color: FlutterFlowTheme.of(context).secondaryText,
+                                  size: 48.0,
+                                ),
+                              ),
                             ),
                           ),
                         ),

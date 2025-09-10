@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_video_player.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/video_preloader.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,6 +29,7 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> {
+  
   late HomeModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -37,7 +39,22 @@ class _HomeWidgetState extends State<HomeWidget> {
     super.initState();
     _model = createModel(context, () => HomeModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      safeSetState(() {});
+      // Preload the video for better performance
+      _preloadVideo();
+    });
+  }
+
+  Future<void> _preloadVideo() async {
+    try {
+      await VideoPreloader().preloadVideo(
+        'assets/videos/Premium_dermatology_tech_web.mp4',
+        isNetwork: false,
+      );
+    } catch (e) {
+      print('Error preloading video: $e');
+    }
   }
 
   @override
@@ -75,221 +92,298 @@ class _HomeWidgetState extends State<HomeWidget> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(24.0, 70.0, 24.0, 0.0),
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                    Container(
+                      width: double.infinity,
+                      height: responsiveVisibility(
+                        context: context,
+                        phone: true,
+                        tablet: false,
+                        tabletLandscape: false,
+                        desktop: false,
+                      ) 
+                        ? MediaQuery.of(context).size.height * 0.6
+                        : MediaQuery.of(context).size.height * 0.8,
+                      child: Stack(
+                        children: [
+                          // Video background with fallback
+                          Positioned.fill(
+                            child: Stack(
                               children: [
-                                Text(
-                                  'AI-Powered Skincare Solutions',
-                                  textAlign: TextAlign.center,
-                                  style: FlutterFlowTheme.of(context)
-                                      .displayLarge
-                                      .override(
-                                        font: GoogleFonts.interTight(
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .displayLarge
-                                                  .fontStyle,
-                                        ),
-                                        color: Colors.white,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .displayLarge
-                                            .fontStyle,
+                                // Fallback background image
+                                Positioned.fill(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Color(0xFF1E3A8A), // Blue
+                                          Color(0xFF3B82F6), // Lighter blue
+                                          Color(0xFF1E40AF), // Darker blue
+                                        ],
                                       ),
+                                    ),
+                                  ),
                                 ),
-                                Text(
-                                  'Get personalized skincare recommendations, track your skin health, and chat with our AI dermatologist assistant 24/7',
-                                  textAlign: TextAlign.center,
-                                  style: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .override(
-                                        font: GoogleFonts.interTight(
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .titleMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .titleMedium
-                                                  .fontStyle,
-                                        ),
-                                        color: Color(0xCCFFFFFF),
-                                        letterSpacing: 0.0,
-                                        fontWeight: FlutterFlowTheme.of(context)
-                                            .titleMedium
-                                            .fontWeight,
-                                        fontStyle: FlutterFlowTheme.of(context)
-                                            .titleMedium
-                                            .fontStyle,
-                                        lineHeight: 1.5,
-                                      ),
+                                // Video player
+                                Positioned.fill(
+                                  child: FlutterFlowVideoPlayer(
+                                    path:
+                                        'assets/videos/Premium_dermatology_tech_web.mp4',
+                                    videoType: VideoType.asset,
+                                    autoPlay: true,
+                                    looping: true,
+                                    showControls: false,
+                                    allowFullScreen: false,
+                                    allowPlaybackSpeedMenu: false,
+                                    lazyLoad: false, // Disable lazy loading for debugging
+                                    pauseOnNavigate: true, // Pause when navigating away
+                                  ),
                                 ),
-                                Row(
+                              ],
+                            ),
+                          ),
+                          // Dark overlay for better text readability
+                          Positioned.fill(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Color(0x80000000),
+                                    Color(0x40000000),
+                                    Color(0x80000000),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          // Content overlay
+                          Positioned.fill(
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                responsiveVisibility(
+                                  context: context,
+                                  phone: true,
+                                  tablet: false,
+                                  tabletLandscape: false,
+                                  desktop: false,
+                                ) ? 16.0 : 24.0, 
+                                responsiveVisibility(
+                                  context: context,
+                                  phone: true,
+                                  tablet: false,
+                                  tabletLandscape: false,
+                                  desktop: false,
+                                ) ? 40.0 : 70.0, 
+                                responsiveVisibility(
+                                  context: context,
+                                  phone: true,
+                                  tablet: false,
+                                  tabletLandscape: false,
+                                  desktop: false,
+                                ) ? 16.0 : 24.0, 
+                                0.0
+                              ),
+                              child: Container(
+                                width: double.infinity,
+                                decoration: BoxDecoration(),
+                                child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    if (responsiveVisibility(
-                                      context: context,
-                                      phone: false,
-                                    ))
-                                      FFButtonWidget(
-                                        onPressed: () async {
-                                          context.pushNamed(
-                                            LoginWidget.routeName,
-                                            extra: <String, dynamic>{
-                                              kTransitionInfoKey:
-                                                  TransitionInfo(
-                                                hasTransition: true,
-                                                transitionType:
-                                                    PageTransitionType.fade,
-                                              ),
-                                            },
-                                          );
-                                        },
-                                        text: 'Start Free Analysis',
-                                        icon: Icon(
-                                          Icons.camera_alt_outlined,
-                                          size: 20.0,
-                                        ),
-                                        options: FFButtonOptions(
-                                          height: 56.0,
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  32.0, 0.0, 32.0, 0.0),
-                                          iconPadding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
-                                          iconColor: Colors.white,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .titleSmall
+                                    Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'AI-Powered Skincare Solutions',
+                                          textAlign: TextAlign.center,
+                                          style: FlutterFlowTheme.of(context)
+                                              .displayLarge
                                               .override(
                                                 font: GoogleFonts.interTight(
-                                                  fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmall
-                                                          .fontWeight,
+                                                  fontWeight: FontWeight.bold,
                                                   fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmall
+                                                      FlutterFlowTheme.of(context)
+                                                          .displayLarge
                                                           .fontStyle,
                                                 ),
                                                 color: Colors.white,
                                                 letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .fontStyle,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle: FlutterFlowTheme.of(context)
+                                                    .displayLarge
+                                                    .fontStyle,
                                               ),
-                                          elevation: 3.0,
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
                                         ),
-                                      ),
-                                    if (responsiveVisibility(
-                                      context: context,
-                                      phone: false,
-                                    ))
-                                      FFButtonWidget(
-                                        onPressed: () {
-                                          print('Button pressed ...');
-                                        },
-                                        text: 'Watch Demo',
-                                        icon: Icon(
-                                          Icons.play_arrow_rounded,
-                                          size: 20.0,
-                                        ),
-                                        options: FFButtonOptions(
-                                          height: 56.0,
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  32.0, 0.0, 32.0, 0.0),
-                                          iconPadding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
-                                          iconColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          color: Colors.white,
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .titleSmall
+                                        Text(
+                                          'Get personalized skincare recommendations, track your skin health, and chat with our AI dermatologist assistant 24/7',
+                                          textAlign: TextAlign.center,
+                                          style: FlutterFlowTheme.of(context)
+                                              .titleMedium
                                               .override(
                                                 font: GoogleFonts.interTight(
                                                   fontWeight:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmall
+                                                      FlutterFlowTheme.of(context)
+                                                          .titleMedium
                                                           .fontWeight,
                                                   fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .titleSmall
+                                                      FlutterFlowTheme.of(context)
+                                                          .titleMedium
                                                           .fontStyle,
                                                 ),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
+                                                color: Color(0xCCFFFFFF),
                                                 letterSpacing: 0.0,
-                                                fontWeight:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .fontWeight,
-                                                fontStyle:
-                                                    FlutterFlowTheme.of(context)
-                                                        .titleSmall
-                                                        .fontStyle,
+                                                fontWeight: FlutterFlowTheme.of(context)
+                                                    .titleMedium
+                                                    .fontWeight,
+                                                fontStyle: FlutterFlowTheme.of(context)
+                                                    .titleMedium
+                                                    .fontStyle,
+                                                lineHeight: 1.5,
                                               ),
-                                          elevation: 0.0,
-                                          borderSide: BorderSide(
-                                            color: Colors.transparent,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(12.0),
                                         ),
-                                      ),
-                                  ].divide(SizedBox(width: 16.0)),
+                                        Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            FFButtonWidget(
+                                                onPressed: () async {
+                                                  context.pushNamed(
+                                                    LoginWidget.routeName,
+                                                    extra: <String, dynamic>{
+                                                      kTransitionInfoKey:
+                                                          TransitionInfo(
+                                                        hasTransition: true,
+                                                        transitionType:
+                                                            PageTransitionType.fade,
+                                                      ),
+                                                    },
+                                                  );
+                                                },
+                                                text: 'Start Free Analysis',
+                                                icon: Icon(
+                                                  Icons.camera_alt_outlined,
+                                                  size: 20.0,
+                                                ),
+                                                options: FFButtonOptions(
+                                                  height: 56.0,
+                                                  padding:
+                                                      EdgeInsetsDirectional.fromSTEB(
+                                                          32.0, 0.0, 32.0, 0.0),
+                                                  iconPadding:
+                                                      EdgeInsetsDirectional.fromSTEB(
+                                                          0.0, 0.0, 0.0, 0.0),
+                                                  iconColor: Colors.white,
+                                                  color: FlutterFlowTheme.of(context)
+                                                      .primary,
+                                                  textStyle: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleSmall
+                                                      .override(
+                                                        font: GoogleFonts.interTight(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: Colors.white,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(context)
+                                                                .titleSmall
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                      ),
+                                                  elevation: 3.0,
+                                                  borderSide: BorderSide(
+                                                    color: Colors.transparent,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12.0),
+                                                ),
+                                              ),
+                                            FFButtonWidget(
+                                              onPressed: () {
+                                                print('Button pressed ...');
+                                              },
+                                              text: 'Watch Demo',
+                                                icon: Icon(
+                                                  Icons.play_arrow_rounded,
+                                                  size: 20.0,
+                                                ),
+                                                options: FFButtonOptions(
+                                                  height: 56.0,
+                                                  padding:
+                                                      EdgeInsetsDirectional.fromSTEB(
+                                                          32.0, 0.0, 32.0, 0.0),
+                                                  iconPadding:
+                                                      EdgeInsetsDirectional.fromSTEB(
+                                                          0.0, 0.0, 0.0, 0.0),
+                                                  iconColor:
+                                                      FlutterFlowTheme.of(context)
+                                                          .primary,
+                                                  color: Colors.white,
+                                                  textStyle: FlutterFlowTheme.of(
+                                                          context)
+                                                      .titleSmall
+                                                      .override(
+                                                        font: GoogleFonts.interTight(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .fontStyle,
+                                                        ),
+                                                        color:
+                                                            FlutterFlowTheme.of(context)
+                                                                .primary,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(context)
+                                                                .titleSmall
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                      ),
+                                                  elevation: 0.0,
+                                                  borderSide: BorderSide(
+                                                    color: Colors.transparent,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(12.0),
+                                                ),
+                                              ),
+                                          ].divide(SizedBox(width: 16.0)),
+                                        ),
+                                      ].divide(SizedBox(height: 24.0)),
+                                    ),
+                                  ].divide(SizedBox(height: 32.0)),
                                 ),
-                              ].divide(SizedBox(height: 24.0)),
+                              ),
                             ),
-                          ].divide(SizedBox(height: 32.0)),
-                        ),
+                          ),
+                        ],
                       ),
-                    ),
-                    FlutterFlowVideoPlayer(
-                      path:
-                          'assets/videos/Premium_dermatology_tech_202509031733.mp4',
-                      videoType: VideoType.asset,
-                      autoPlay: false,
-                      looping: true,
-                      showControls: true,
-                      allowFullScreen: true,
-                      allowPlaybackSpeedMenu: false,
                     ),
                     if (responsiveVisibility(
                       context: context,

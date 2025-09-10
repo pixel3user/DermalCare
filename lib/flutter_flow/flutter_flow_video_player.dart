@@ -7,6 +7,9 @@ import 'package:video_player/video_player.dart';
 
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart' show routeObserver;
+import '/flutter_flow/video_cache_manager.dart';
+import '/flutter_flow/video_preloader.dart';
+import '/flutter_flow/video_format_validator.dart';
 
 const kDefaultAspectRatio = 16 / 9;
 
@@ -119,54 +122,123 @@ class _FlutterFlowVideoPlayerState extends State<FlutterFlowVideoPlayer>
   }
 
   Future _initializePlayer() async {
-    _videoPlayerController = widget.videoType == VideoType.network
-        ? VideoPlayerController.networkUrl(Uri.parse(widget.path))
-        : VideoPlayerController.asset(widget.path);
-    if (kIsWeb && widget.autoPlay) {
-      // Browsers generally don't allow autoplay unless it's muted.
-      // Ideally this should be configurable, but for now we just automatically
-      // mute on web.
-      // See https://pub.dev/packages/video_player_web#autoplay
-      _videoPlayerController!.setVolume(0);
-    }
-    if (!widget.lazyLoad) {
-      await _videoPlayerController?.initialize();
-    }
-    _chewieController = ChewieController(
-      videoPlayerController: _videoPlayerController!,
-      deviceOrientationsOnEnterFullScreen: [
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ],
-      deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
-      aspectRatio: widget.aspectRatio,
-      autoPlay: widget.autoPlay,
-      looping: widget.looping,
-      showControls: widget.showControls,
-      allowFullScreen: widget.allowFullScreen,
-      allowPlaybackSpeedChanging: widget.allowPlaybackSpeedMenu,
-    );
-
-    _videoPlayers.add(_videoPlayerController!);
-    _videoPlayerController!.addListener(() {
-      if (_videoPlayerController!.value.hasError && !_loggedError) {
-        print(
-            'Error playing video: ${_videoPlayerController!.value.errorDescription}');
+    try {
+      print('🎥 Initializing video player for: ${widget.path}');
+      
+      // Validate video format first
+      final videoInfo = VideoFormatValidator.getVideoInfo(widget.path);
+      print('🎥 Video info: $videoInfo');
+      
+      if (!videoInfo['isSupported']) {
+        print('❌ Unsupported video format: ${videoInfo['extension']}');
+        print('💡 Suggestion: ${VideoFormatValidator.getOptimizationSuggestion(widget.path)}');
         _loggedError = true;
+        if (mounted) setState(() {});
+        return;
       }
-      // Stop all other players when one video is playing.
-      if (_videoPlayerController!.value.isPlaying) {
-        _videoPlayers.forEach((otherPlayer) {
-          if (otherPlayer != _videoPlayerController &&
-              otherPlayer.value.isPlaying &&
-              mounted) {
-            setState(() {
-              otherPlayer.pause();
-            });
+      
+      print('✅ Video format is supported');
+
+      // Try to get preloaded controller first
+      _videoPlayerController = VideoPreloader().getPreloadedVideo(widget.path);
+      
+      if (_videoPlayerController == null) {
+        print('🎥 Creating new video controller');
+        // If not preloaded, create new controller
+        _videoPlayerController = widget.videoType == VideoType.network
+            ? VideoPlayerController.networkUrl(Uri.parse(widget.path))
+            : VideoPlayerController.asset(widget.path);
+        print('🎥 Video controller created: ${_videoPlayerController.runtimeType}');
+      } else {
+        print('🎥 Using preloaded video controller');
+      }
+      
+      if (kIsWeb && widget.autoPlay) {
+        // Browsers generally don't allow autoplay unless it's muted.
+        // Ideally this should be configurable, but for now we just automatically
+        // mute on web.
+        // See https://pub.dev/packages/video_player_web#autoplay
+        _videoPlayerController!.setVolume(0);
+      }
+      
+      if (!widget.lazyLoad) {
+        print('🎥 Initializing video controller...');
+        await _videoPlayerController?.initialize();
+        print('🎥 Video controller initialized: ${_videoPlayerController?.value.isInitialized}');
+      }
+      
+      print('🎥 Creating Chewie controller...');
+      _chewieController = ChewieController(
+        videoPlayerController: _videoPlayerController!,
+        deviceOrientationsOnEnterFullScreen: [
+          DeviceOrientation.landscapeLeft,
+          DeviceOrientation.landscapeRight,
+        ],
+        deviceOrientationsAfterFullScreen: [DeviceOrientation.portraitUp],
+        aspectRatio: widget.aspectRatio,
+        autoPlay: widget.autoPlay,
+        looping: widget.looping,
+        showControls: widget.showControls,
+        allowFullScreen: widget.allowFullScreen,
+        allowPlaybackSpeedChanging: widget.allowPlaybackSpeedMenu,
+        // Add error handling
+        errorBuilder: (context, errorMessage) {
+          return Container(
+            color: Colors.black,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error_outline, color: Colors.white, size: 48),
+                  SizedBox(height: 16),
+                  Text(
+                    'Video playback error',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Please try again later',
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+
+      _videoPlayers.add(_videoPlayerController!);
+      _videoPlayerController!.addListener(() {
+        if (_videoPlayerController!.value.hasError && !_loggedError) {
+          print(
+              'Error playing video: ${_videoPlayerController!.value.errorDescription}');
+          _loggedError = true;
+          // Trigger rebuild to show error state
+          if (mounted) {
+            setState(() {});
           }
-        });
+        }
+        // Stop all other players when one video is playing.
+        if (_videoPlayerController!.value.isPlaying) {
+          _videoPlayers.forEach((otherPlayer) {
+            if (otherPlayer != _videoPlayerController &&
+                otherPlayer.value.isPlaying &&
+                mounted) {
+              setState(() {
+                otherPlayer.pause();
+              });
+            }
+          });
+        }
+      });
+    } catch (e) {
+      print('❌ Failed to initialize video player: $e');
+      print('❌ Error type: ${e.runtimeType}');
+      _loggedError = true;
+      if (mounted) {
+        setState(() {});
       }
-    });
+    }
 
     _chewieController!.addListener(() {
       // On web, Chewie has issues when exiting fullscreen. As a workaround,
@@ -193,30 +265,72 @@ class _FlutterFlowVideoPlayerState extends State<FlutterFlowVideoPlayer>
         child: Container(
           height: height,
           width: width,
-          child: _chewieController != null &&
-                  (widget.lazyLoad ||
-                      _chewieController!
-                          .videoPlayerController.value.isInitialized)
-              ? Chewie(controller: _chewieController!)
-              : (_chewieController != null &&
-                      _chewieController!.videoPlayerController.value.hasError)
-                  ? Text('Error playing video')
-                  : Column(
+          child: _loggedError
+              ? Container(
+                  color: Colors.black,
+                  child: Center(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          width: 50.0,
-                          height: 50.0,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              FlutterFlowTheme.of(context).primary,
-                            ),
-                          ),
+                        Icon(Icons.error_outline, color: Colors.white, size: 48),
+                        SizedBox(height: 16),
+                        Text(
+                          'Video unavailable',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
-                        const SizedBox(height: 20),
-                        const Text('Loading'),
+                        SizedBox(height: 8),
+                        Text(
+                          'Please check your connection',
+                          style: TextStyle(color: Colors.white70, fontSize: 14),
+                        ),
                       ],
                     ),
+                  ),
+                )
+              : _chewieController != null &&
+                      (widget.lazyLoad ||
+                          _chewieController!
+                              .videoPlayerController.value.isInitialized)
+                  ? Chewie(controller: _chewieController!)
+                  : (_chewieController != null &&
+                          _chewieController!.videoPlayerController.value.hasError)
+                      ? Container(
+                          color: Colors.black,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.error_outline, color: Colors.white, size: 48),
+                                SizedBox(height: 16),
+                                Text(
+                                  'Video playback error',
+                                  style: TextStyle(color: Colors.white, fontSize: 16),
+                                ),
+                                SizedBox(height: 8),
+                                Text(
+                                  'Please try again later',
+                                  style: TextStyle(color: Colors.white70, fontSize: 14),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 50.0,
+                              height: 50.0,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  FlutterFlowTheme.of(context).primary,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            const Text('Loading'),
+                          ],
+                        ),
         ),
       );
 }

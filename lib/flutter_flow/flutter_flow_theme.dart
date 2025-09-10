@@ -189,107 +189,123 @@ class ThemeTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
+  // Helper method to create TextStyle with fallback fonts
+  TextStyle _createTextStyle({
+    required Color color,
+    required FontWeight fontWeight,
+    required double fontSize,
+  }) {
+    // Use system fonts to avoid AssetManifest.json issues in development
+    return TextStyle(
+      fontFamily: 'Inter Tight',
+      color: color,
+      fontWeight: fontWeight,
+      fontSize: fontSize,
+      fontFamilyFallback: ['NotoSans', 'Arial', 'sans-serif'],
+    );
+  }
+
   String get displayLargeFamily => 'Inter Tight';
   bool get displayLargeIsCustom => false;
-  TextStyle get displayLarge => GoogleFonts.interTight(
+  TextStyle get displayLarge => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 64.0,
       );
   String get displayMediumFamily => 'Inter Tight';
   bool get displayMediumIsCustom => false;
-  TextStyle get displayMedium => GoogleFonts.interTight(
+  TextStyle get displayMedium => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 44.0,
       );
   String get displaySmallFamily => 'Inter Tight';
   bool get displaySmallIsCustom => false;
-  TextStyle get displaySmall => GoogleFonts.interTight(
+  TextStyle get displaySmall => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 36.0,
       );
   String get headlineLargeFamily => 'Inter Tight';
   bool get headlineLargeIsCustom => false;
-  TextStyle get headlineLarge => GoogleFonts.interTight(
+  TextStyle get headlineLarge => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 32.0,
       );
   String get headlineMediumFamily => 'Inter Tight';
   bool get headlineMediumIsCustom => false;
-  TextStyle get headlineMedium => GoogleFonts.interTight(
+  TextStyle get headlineMedium => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 28.0,
       );
   String get headlineSmallFamily => 'Inter Tight';
   bool get headlineSmallIsCustom => false;
-  TextStyle get headlineSmall => GoogleFonts.interTight(
+  TextStyle get headlineSmall => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.w500,
         fontSize: 24.0,
       );
   String get titleLargeFamily => 'Inter Tight';
   bool get titleLargeIsCustom => false;
-  TextStyle get titleLarge => GoogleFonts.interTight(
+  TextStyle get titleLarge => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 20.0,
       );
   String get titleMediumFamily => 'Inter Tight';
   bool get titleMediumIsCustom => false;
-  TextStyle get titleMedium => GoogleFonts.interTight(
+  TextStyle get titleMedium => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 18.0,
       );
   String get titleSmallFamily => 'Inter Tight';
   bool get titleSmallIsCustom => false;
-  TextStyle get titleSmall => GoogleFonts.interTight(
+  TextStyle get titleSmall => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.w600,
         fontSize: 16.0,
       );
   String get labelLargeFamily => 'Inter Tight';
   bool get labelLargeIsCustom => false;
-  TextStyle get labelLarge => GoogleFonts.interTight(
+  TextStyle get labelLarge => _createTextStyle(
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
   String get labelMediumFamily => 'Inter Tight';
   bool get labelMediumIsCustom => false;
-  TextStyle get labelMedium => GoogleFonts.interTight(
+  TextStyle get labelMedium => _createTextStyle(
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
   String get labelSmallFamily => 'Inter Tight';
   bool get labelSmallIsCustom => false;
-  TextStyle get labelSmall => GoogleFonts.interTight(
+  TextStyle get labelSmall => _createTextStyle(
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 12.0,
       );
   String get bodyLargeFamily => 'Inter Tight';
   bool get bodyLargeIsCustom => false;
-  TextStyle get bodyLarge => GoogleFonts.interTight(
+  TextStyle get bodyLarge => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
   String get bodyMediumFamily => 'Inter Tight';
   bool get bodyMediumIsCustom => false;
-  TextStyle get bodyMedium => GoogleFonts.interTight(
+  TextStyle get bodyMedium => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
   String get bodySmallFamily => 'Inter Tight';
   bool get bodySmallIsCustom => false;
-  TextStyle get bodySmall => GoogleFonts.interTight(
+  TextStyle get bodySmall => _createTextStyle(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 12.0,

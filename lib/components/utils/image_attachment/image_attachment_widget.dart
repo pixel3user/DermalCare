@@ -8,9 +8,13 @@ class ImageAttachmentWidget extends StatefulWidget {
   const ImageAttachmentWidget({
     super.key,
     this.onDelete,
+    this.imageUrl,
+    this.imageFile,
   });
 
   final Future Function()? onDelete;
+  final String? imageUrl;
+  final FFUploadedFile? imageFile;
 
   @override
   State<ImageAttachmentWidget> createState() => _ImageAttachmentWidgetState();
@@ -49,12 +53,7 @@ class _ImageAttachmentWidgetState extends State<ImageAttachmentWidget> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12.0),
-            child: Image.network(
-              'https://s3-alpha-sig.figma.com/img/8edc/82de/970652999e82613f3c3525d1db5fb12e?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=ZRj5dT~6d7fDMVwj3YUz-pSV4HXvCFKdDKg2YFXBx-Lvkc7tSbdyrr-AD544XC9ZhBsUKWRLXdkjPgQbXhJ-X7m~RvzTBoGt0d~n2Yf1WWfKe2p1dnGEMFpGfQFpc509M14xzsAWE2gOqevBrwirDkMA4S3Xkul0zobeqJQioE8hpZfJu-N6AEzPhs~zKruKlKQc9Vxo4mqqxEQ3aoqX-UMo~AM7yNpICK0N1MURBZOA22LXwNBWsLLwzzb~4S0CgosDHwy~XX~jM-f0JaKQ4S4MumfUjIqo8-9PvKBb3A6QQHiJ8k8n8fl9MabqUvJF71xP8ihoRjjqjkHevtgzOA__',
-              width: MediaQuery.sizeOf(context).width * 1.0,
-              height: MediaQuery.sizeOf(context).height * 1.0,
-              fit: BoxFit.cover,
-            ),
+            child: _buildImage(),
           ),
           Align(
             alignment: AlignmentDirectional(1.25, -1.25),
@@ -82,6 +81,59 @@ class _ImageAttachmentWidgetState extends State<ImageAttachmentWidget> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildImage() {
+    // Use imageFile if available (for local preview), otherwise use imageUrl
+    if (widget.imageFile != null && widget.imageFile!.bytes != null && widget.imageFile!.bytes!.isNotEmpty) {
+      return Image.memory(
+        widget.imageFile!.bytes!,
+        width: 64.0,
+        height: 64.0,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => _buildErrorWidget(),
+      );
+    } else if (widget.imageUrl != null && widget.imageUrl!.isNotEmpty) {
+      return Image.network(
+        widget.imageUrl!,
+        width: 64.0,
+        height: 64.0,
+        fit: BoxFit.cover,
+        loadingBuilder: (context, child, loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            width: 64.0,
+            height: 64.0,
+            color: FlutterFlowTheme.of(context).accent4,
+            child: Center(
+              child: CircularProgressIndicator(
+                value: loadingProgress.expectedTotalBytes != null
+                    ? loadingProgress.cumulativeBytesLoaded /
+                        loadingProgress.expectedTotalBytes!
+                    : null,
+                strokeWidth: 2.0,
+              ),
+            ),
+          );
+        },
+        errorBuilder: (context, error, stackTrace) => _buildErrorWidget(),
+      );
+    } else {
+      return _buildErrorWidget();
+    }
+  }
+
+  Widget _buildErrorWidget() {
+    return Container(
+      width: 64.0,
+      height: 64.0,
+      color: FlutterFlowTheme.of(context).accent4,
+      child: Icon(
+        Icons.broken_image,
+        color: FlutterFlowTheme.of(context).secondaryText,
+        size: 24.0,
       ),
     );
   }
