@@ -3,6 +3,7 @@ import '/components/modals/search_modal/search_modal_widget.dart';
 import '/components/sidebar/sidebar_widget.dart';
 import '/components/sidebar_mobile/sidebar_mobile_widget.dart';
 import '/components/store_items_widget.dart';
+import '/components/utils/drawer_utils.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -70,38 +71,17 @@ class _StoreWidgetState extends State<StoreWidget>
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        drawer: Drawer(
-          elevation: 16.0,
-          child: wrapWithModel(
-            model: _model.sidebarMobileModel,
-            updateCallback: () => safeSetState(() {}),
-            child: SidebarMobileWidget(
-              onNewChat: () async {
-                Navigator.pop(context);
-
-                context.pushNamed(
-                  MainWidget.routeName,
-                  extra: <String, dynamic>{
-                    kTransitionInfoKey: TransitionInfo(
-                      hasTransition: true,
-                      transitionType: PageTransitionType.fade,
-                    ),
-                  },
-                );
-              },
-              onSearch: () async {
-                _model.showSearchModal = true;
-                safeSetState(() {});
-                Navigator.pop(context);
-              },
-              onItemSelect: () async {
-                _model.showEmptyChat = false;
-                _model.showResponseLoading = false;
-                safeSetState(() {});
-                Navigator.pop(context);
-              },
-            ),
-          ),
+        drawer: DrawerUtils.createMobileDrawer(
+          context: context,
+          onSearch: () async {
+            _model.showSearchModal = true;
+            safeSetState(() {});
+          },
+          onItemSelect: () async {
+            _model.showEmptyChat = false;
+            _model.showResponseLoading = false;
+            safeSetState(() {});
+          },
         ),
         body: SafeArea(
           top: true,
@@ -119,17 +99,9 @@ class _StoreWidgetState extends State<StoreWidget>
                       child: wrapWithModel(
                         model: _model.sidebarModel,
                         updateCallback: () => safeSetState(() {}),
-                        child: SidebarWidget(
+                        child: DrawerUtils.createDesktopSidebar(
                           onNewChat: () async {
-                            context.pushNamed(
-                              MainWidget.routeName,
-                              extra: <String, dynamic>{
-                                kTransitionInfoKey: TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType: PageTransitionType.fade,
-                                ),
-                              },
-                            );
+                            await DrawerUtils.navigateToMain(context);
                           },
                           onItemSelect: () async {
                             _model.showEmptyChat = false;

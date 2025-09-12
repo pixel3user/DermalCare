@@ -255,7 +255,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                       },
                     );
                   },
-                  text: 'Get Started',
+                  text: 'Start Free Analysis',
                   options: FFButtonOptions(
                     height: 40.0,
                     padding:

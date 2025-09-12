@@ -11,9 +11,17 @@ class EmptyChatStateWidget extends StatefulWidget {
   const EmptyChatStateWidget({
     super.key,
     this.onItemPress,
+    this.onSkinAnalysis,
+    this.onUploadPhoto,
+    this.onSkincareTips,
+    this.onProductRecommendations,
   });
 
   final Future Function()? onItemPress;
+  final Future Function()? onSkinAnalysis;
+  final Future Function()? onUploadPhoto;
+  final Future Function()? onSkincareTips;
+  final Future Function()? onProductRecommendations;
 
   @override
   State<EmptyChatStateWidget> createState() => _EmptyChatStateWidgetState();
@@ -45,17 +53,22 @@ class _EmptyChatStateWidgetState extends State<EmptyChatStateWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
         Container(
           width: 440.0,
           decoration: BoxDecoration(),
           child: Column(
             mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Hey, how can I help?',
+                'Hi! I\'m your AI skincare assistant',
+                textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).headlineLarge.override(
                       font: GoogleFonts.interTight(
                         fontWeight: FlutterFlowTheme.of(context)
@@ -73,7 +86,7 @@ class _EmptyChatStateWidgetState extends State<EmptyChatStateWidget> {
                     ),
               ),
               Text(
-                'Not sure where to start? Choose a preset question to get started, and we’ll guide you through the process!',
+                'Ask me anything about your skin! I can help analyze skin concerns, recommend products, track your skincare routine, and provide personalized advice for healthier skin.',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).labelLarge.override(
                       font: GoogleFonts.interTight(
@@ -114,14 +127,14 @@ class _EmptyChatStateWidgetState extends State<EmptyChatStateWidget> {
                       model: _model.suggestionButtonModel1,
                       updateCallback: () => safeSetState(() {}),
                       child: SuggestionButtonWidget(
-                        label: 'Write Copy',
+                        label: 'Skin Analysis',
                         icon: Icon(
-                          Icons.colorize,
+                          Icons.face_retouching_natural,
                           color: FlutterFlowTheme.of(context).primary,
                           size: 20.0,
                         ),
                         onClick: () async {
-                          await widget.onItemPress?.call();
+                          await widget.onSkinAnalysis?.call();
                         },
                       ),
                     ),
@@ -129,14 +142,14 @@ class _EmptyChatStateWidgetState extends State<EmptyChatStateWidget> {
                       model: _model.suggestionButtonModel2,
                       updateCallback: () => safeSetState(() {}),
                       child: SuggestionButtonWidget(
-                        label: 'Image',
+                        label: 'Upload Photo',
                         icon: Icon(
-                          Icons.grade,
+                          Icons.camera_alt,
                           color: FlutterFlowTheme.of(context).primary,
                           size: 20.0,
                         ),
                         onClick: () async {
-                          await widget.onItemPress?.call();
+                          await widget.onUploadPhoto?.call();
                         },
                       ),
                     ),
@@ -144,14 +157,14 @@ class _EmptyChatStateWidgetState extends State<EmptyChatStateWidget> {
                       model: _model.suggestionButtonModel3,
                       updateCallback: () => safeSetState(() {}),
                       child: SuggestionButtonWidget(
-                        label: 'Brainstorm',
+                        label: 'Skincare Tips',
                         icon: Icon(
                           Icons.lightbulb_rounded,
                           color: FlutterFlowTheme.of(context).primary,
                           size: 20.0,
                         ),
                         onClick: () async {
-                          await widget.onItemPress?.call();
+                          await widget.onSkincareTips?.call();
                         },
                       ),
                     ),
@@ -159,14 +172,14 @@ class _EmptyChatStateWidgetState extends State<EmptyChatStateWidget> {
                       model: _model.suggestionButtonModel4,
                       updateCallback: () => safeSetState(() {}),
                       child: SuggestionButtonWidget(
-                        label: 'Write code',
+                        label: 'Product Recs',
                         icon: Icon(
-                          Icons.code,
+                          Icons.shopping_bag,
                           color: FlutterFlowTheme.of(context).primary,
                           size: 20.0,
                         ),
                         onClick: () async {
-                          await widget.onItemPress?.call();
+                          await widget.onProductRecommendations?.call();
                         },
                       ),
                     ),
@@ -175,6 +188,7 @@ class _EmptyChatStateWidgetState extends State<EmptyChatStateWidget> {
           ),
         ),
       ].divide(SizedBox(height: 24.0)),
+    ),
     );
   }
 }

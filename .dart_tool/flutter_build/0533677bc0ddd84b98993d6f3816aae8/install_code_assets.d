@@ -1,0 +1,1 @@
+ /home/slim/github/DermalCare/.dart_tool/flutter_build/0533677bc0ddd84b98993d6f3816aae8/native_assets.json: 

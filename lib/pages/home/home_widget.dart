@@ -1,11 +1,10 @@
 import '/components/footer_widget.dart';
 import '/components/navbar_widget.dart';
 import '/components/signupcomponent_widget.dart';
+import '/components/utils/drawer_utils.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_video_player.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/video_preloader.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,21 +40,11 @@ class _HomeWidgetState extends State<HomeWidget> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       safeSetState(() {});
-      // Preload the video for better performance
-      _preloadVideo();
+      // Preload the video for better performance - temporarily disabled
+      // _preloadVideo();
     });
   }
 
-  Future<void> _preloadVideo() async {
-    try {
-      await VideoPreloader().preloadVideo(
-        'assets/videos/Premium_dermatology_tech_web.mp4',
-        isNetwork: false,
-      );
-    } catch (e) {
-      print('Error preloading video: $e');
-    }
-  }
 
   @override
   void dispose() {
@@ -74,6 +63,15 @@ class _HomeWidgetState extends State<HomeWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        drawer: DrawerUtils.createMobileDrawer(
+          context: context,
+          onSearch: () async {
+            // Home page doesn't have search functionality
+          },
+          onItemSelect: () async {
+            // Home page doesn't have item selection
+          },
+        ),
         body: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -89,7 +87,7 @@ class _HomeWidgetState extends State<HomeWidget> {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
@@ -101,7 +99,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                         tabletLandscape: false,
                         desktop: false,
                       ) 
-                        ? MediaQuery.of(context).size.height * 0.6
+                        ? MediaQuery.of(context).size.height * 0.7
                         : MediaQuery.of(context).size.height * 0.8,
                       child: Stack(
                         children: [
@@ -125,19 +123,41 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     ),
                                   ),
                                 ),
-                                // Video player
+                                // Video player with error handling
                                 Positioned.fill(
-                                  child: FlutterFlowVideoPlayer(
-                                    path:
-                                        'assets/videos/Premium_dermatology_tech_web.mp4',
-                                    videoType: VideoType.asset,
-                                    autoPlay: true,
-                                    looping: true,
-                                    showControls: false,
-                                    allowFullScreen: false,
-                                    allowPlaybackSpeedMenu: false,
-                                    lazyLoad: false, // Disable lazy loading for debugging
-                                    pauseOnNavigate: true, // Pause when navigating away
+                                  child: Container(
+                                    color: Colors.black.withOpacity(0.3),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.play_circle_outline,
+                                            color: Colors.white,
+                                            size: 64,
+                                          ),
+                                          SizedBox(height: 16),
+                                          Text(
+                                            'Video Background',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          SizedBox(height: 8),
+                                          Text(
+                                            'Tap to play',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Colors.white70,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -169,22 +189,28 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   tablet: false,
                                   tabletLandscape: false,
                                   desktop: false,
-                                ) ? 16.0 : 24.0, 
+                                ) ? 20.0 : 24.0, 
                                 responsiveVisibility(
                                   context: context,
                                   phone: true,
                                   tablet: false,
                                   tabletLandscape: false,
                                   desktop: false,
-                                ) ? 40.0 : 70.0, 
+                                ) ? 60.0 : 70.0, 
                                 responsiveVisibility(
                                   context: context,
                                   phone: true,
                                   tablet: false,
                                   tabletLandscape: false,
                                   desktop: false,
-                                ) ? 16.0 : 24.0, 
-                                0.0
+                                ) ? 20.0 : 24.0, 
+                                responsiveVisibility(
+                                  context: context,
+                                  phone: true,
+                                  tablet: false,
+                                  tabletLandscape: false,
+                                  desktop: false,
+                                ) ? 20.0 : 0.0
                               ),
                               child: Container(
                                 width: double.infinity,
@@ -217,6 +243,13 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 fontStyle: FlutterFlowTheme.of(context)
                                                     .displayLarge
                                                     .fontStyle,
+                                                fontSize: responsiveVisibility(
+                                                  context: context,
+                                                  phone: true,
+                                                  tablet: false,
+                                                  tabletLandscape: false,
+                                                  desktop: false,
+                                                ) ? 32.0 : 64.0,
                                               ),
                                         ),
                                         Text(
@@ -244,137 +277,283 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     .titleMedium
                                                     .fontStyle,
                                                 lineHeight: 1.5,
+                                                fontSize: responsiveVisibility(
+                                                  context: context,
+                                                  phone: true,
+                                                  tablet: false,
+                                                  tabletLandscape: false,
+                                                  desktop: false,
+                                                ) ? 16.0 : 18.0,
                                               ),
                                         ),
-                                        Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            FFButtonWidget(
-                                                onPressed: () async {
-                                                  context.pushNamed(
-                                                    LoginWidget.routeName,
-                                                    extra: <String, dynamic>{
-                                                      kTransitionInfoKey:
-                                                          TransitionInfo(
-                                                        hasTransition: true,
-                                                        transitionType:
-                                                            PageTransitionType.fade,
-                                                      ),
+                                        // Mobile-responsive button layout
+                                        responsiveVisibility(
+                                          context: context,
+                                          phone: true,
+                                          tablet: false,
+                                          tabletLandscape: false,
+                                          desktop: false,
+                                        )
+                                            ? Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  FFButtonWidget(
+                                                    onPressed: () async {
+                                                      context.pushNamed(
+                                                        LoginWidget.routeName,
+                                                        extra: <String, dynamic>{
+                                                          kTransitionInfoKey:
+                                                              TransitionInfo(
+                                                            hasTransition: true,
+                                                            transitionType:
+                                                                PageTransitionType.fade,
+                                                          ),
+                                                        },
+                                                      );
                                                     },
-                                                  );
-                                                },
-                                                text: 'Start Free Analysis',
-                                                icon: Icon(
-                                                  Icons.camera_alt_outlined,
-                                                  size: 20.0,
-                                                ),
-                                                options: FFButtonOptions(
-                                                  height: 56.0,
-                                                  padding:
-                                                      EdgeInsetsDirectional.fromSTEB(
-                                                          32.0, 0.0, 32.0, 0.0),
-                                                  iconPadding:
-                                                      EdgeInsetsDirectional.fromSTEB(
-                                                          0.0, 0.0, 0.0, 0.0),
-                                                  iconColor: Colors.white,
-                                                  color: FlutterFlowTheme.of(context)
-                                                      .primary,
-                                                  textStyle: FlutterFlowTheme.of(
-                                                          context)
-                                                      .titleSmall
-                                                      .override(
-                                                        font: GoogleFonts.interTight(
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .fontStyle,
-                                                        ),
-                                                        color: Colors.white,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(context)
-                                                                .titleSmall
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(context)
-                                                                .titleSmall
-                                                                .fontStyle,
-                                                      ),
-                                                  elevation: 3.0,
-                                                  borderSide: BorderSide(
-                                                    color: Colors.transparent,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(12.0),
-                                                ),
-                                              ),
-                                            FFButtonWidget(
-                                              onPressed: () {
-                                                print('Button pressed ...');
-                                              },
-                                              text: 'Watch Demo',
-                                                icon: Icon(
-                                                  Icons.play_arrow_rounded,
-                                                  size: 20.0,
-                                                ),
-                                                options: FFButtonOptions(
-                                                  height: 56.0,
-                                                  padding:
-                                                      EdgeInsetsDirectional.fromSTEB(
-                                                          32.0, 0.0, 32.0, 0.0),
-                                                  iconPadding:
-                                                      EdgeInsetsDirectional.fromSTEB(
-                                                          0.0, 0.0, 0.0, 0.0),
-                                                  iconColor:
-                                                      FlutterFlowTheme.of(context)
+                                                    text: 'Start Free Analysis',
+                                                    icon: Icon(
+                                                      Icons.camera_alt_outlined,
+                                                      size: 20.0,
+                                                    ),
+                                                    options: FFButtonOptions(
+                                                      width: double.infinity,
+                                                      height: 56.0,
+                                                      padding:
+                                                          EdgeInsetsDirectional.fromSTEB(
+                                                              24.0, 0.0, 24.0, 0.0),
+                                                      iconPadding:
+                                                          EdgeInsetsDirectional.fromSTEB(
+                                                              0.0, 0.0, 0.0, 0.0),
+                                                      iconColor: Colors.white,
+                                                      color: FlutterFlowTheme.of(context)
                                                           .primary,
-                                                  color: Colors.white,
-                                                  textStyle: FlutterFlowTheme.of(
-                                                          context)
-                                                      .titleSmall
-                                                      .override(
-                                                        font: GoogleFonts.interTight(
-                                                          fontWeight:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .fontWeight,
-                                                          fontStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .fontStyle,
-                                                        ),
-                                                        color:
-                                                            FlutterFlowTheme.of(context)
-                                                                .primary,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FlutterFlowTheme.of(context)
-                                                                .titleSmall
-                                                                .fontWeight,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(context)
-                                                                .titleSmall
-                                                                .fontStyle,
+                                                      textStyle: FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .override(
+                                                            font: GoogleFonts.interTight(
+                                                              fontWeight:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontWeight,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                            ),
+                                                            color: Colors.white,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(context)
+                                                                    .titleSmall
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(context)
+                                                                    .titleSmall
+                                                                    .fontStyle,
+                                                          ),
+                                                      elevation: 3.0,
+                                                      borderSide: BorderSide(
+                                                        color: Colors.transparent,
                                                       ),
-                                                  elevation: 0.0,
-                                                  borderSide: BorderSide(
-                                                    color: Colors.transparent,
+                                                      borderRadius:
+                                                          BorderRadius.circular(12.0),
+                                                    ),
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(12.0),
-                                                ),
+                                                  SizedBox(height: 12.0),
+                                                  FFButtonWidget(
+                                                    onPressed: () {
+                                                      print('Button pressed ...');
+                                                    },
+                                                    text: 'Watch Demo',
+                                                    icon: Icon(
+                                                      Icons.play_arrow_rounded,
+                                                      size: 20.0,
+                                                    ),
+                                                    options: FFButtonOptions(
+                                                      width: double.infinity,
+                                                      height: 56.0,
+                                                      padding:
+                                                          EdgeInsetsDirectional.fromSTEB(
+                                                              24.0, 0.0, 24.0, 0.0),
+                                                      iconPadding:
+                                                          EdgeInsetsDirectional.fromSTEB(
+                                                              0.0, 0.0, 0.0, 0.0),
+                                                      iconColor:
+                                                          FlutterFlowTheme.of(context)
+                                                              .primary,
+                                                      color: Colors.white,
+                                                      textStyle: FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .override(
+                                                            font: GoogleFonts.interTight(
+                                                              fontWeight:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontWeight,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                            ),
+                                                            color:
+                                                                FlutterFlowTheme.of(context)
+                                                                    .primary,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(context)
+                                                                    .titleSmall
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(context)
+                                                                    .titleSmall
+                                                                    .fontStyle,
+                                                          ),
+                                                      elevation: 0.0,
+                                                      borderSide: BorderSide(
+                                                        color: Colors.transparent,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(12.0),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  FFButtonWidget(
+                                                    onPressed: () async {
+                                                      context.pushNamed(
+                                                        LoginWidget.routeName,
+                                                        extra: <String, dynamic>{
+                                                          kTransitionInfoKey:
+                                                              TransitionInfo(
+                                                            hasTransition: true,
+                                                            transitionType:
+                                                                PageTransitionType.fade,
+                                                          ),
+                                                        },
+                                                      );
+                                                    },
+                                                    text: 'Start Free Analysis',
+                                                    icon: Icon(
+                                                      Icons.camera_alt_outlined,
+                                                      size: 20.0,
+                                                    ),
+                                                    options: FFButtonOptions(
+                                                      height: 56.0,
+                                                      padding:
+                                                          EdgeInsetsDirectional.fromSTEB(
+                                                              32.0, 0.0, 32.0, 0.0),
+                                                      iconPadding:
+                                                          EdgeInsetsDirectional.fromSTEB(
+                                                              0.0, 0.0, 0.0, 0.0),
+                                                      iconColor: Colors.white,
+                                                      color: FlutterFlowTheme.of(context)
+                                                          .primary,
+                                                      textStyle: FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .override(
+                                                            font: GoogleFonts.interTight(
+                                                              fontWeight:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontWeight,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                            ),
+                                                            color: Colors.white,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(context)
+                                                                    .titleSmall
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(context)
+                                                                    .titleSmall
+                                                                    .fontStyle,
+                                                          ),
+                                                      elevation: 3.0,
+                                                      borderSide: BorderSide(
+                                                        color: Colors.transparent,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(12.0),
+                                                    ),
+                                                  ),
+                                                  FFButtonWidget(
+                                                    onPressed: () {
+                                                      print('Button pressed ...');
+                                                    },
+                                                    text: 'Watch Demo',
+                                                    icon: Icon(
+                                                      Icons.play_arrow_rounded,
+                                                      size: 20.0,
+                                                    ),
+                                                    options: FFButtonOptions(
+                                                      height: 56.0,
+                                                      padding:
+                                                          EdgeInsetsDirectional.fromSTEB(
+                                                              32.0, 0.0, 32.0, 0.0),
+                                                      iconPadding:
+                                                          EdgeInsetsDirectional.fromSTEB(
+                                                              0.0, 0.0, 0.0, 0.0),
+                                                      iconColor:
+                                                          FlutterFlowTheme.of(context)
+                                                              .primary,
+                                                      color: Colors.white,
+                                                      textStyle: FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .override(
+                                                            font: GoogleFonts.interTight(
+                                                              fontWeight:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontWeight,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                            ),
+                                                            color:
+                                                                FlutterFlowTheme.of(context)
+                                                                    .primary,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(context)
+                                                                    .titleSmall
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(context)
+                                                                    .titleSmall
+                                                                    .fontStyle,
+                                                          ),
+                                                      elevation: 0.0,
+                                                      borderSide: BorderSide(
+                                                        color: Colors.transparent,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(12.0),
+                                                    ),
+                                                  ),
+                                                ].divide(SizedBox(width: 16.0)),
                                               ),
-                                          ].divide(SizedBox(width: 16.0)),
-                                        ),
                                       ].divide(SizedBox(height: 24.0)),
                                     ),
                                   ].divide(SizedBox(height: 32.0)),
@@ -391,13 +570,11 @@ class _HomeWidgetState extends State<HomeWidget> {
                       tabletLandscape: false,
                       desktop: false,
                     ))
-                      Expanded(
-                        child: wrapWithModel(
-                          model: _model.signupcomponentModel,
-                          updateCallback: () => safeSetState(() {}),
-                          child: SignupcomponentWidget(
-                            parameter1: false,
-                          ),
+                      wrapWithModel(
+                        model: _model.signupcomponentModel,
+                        updateCallback: () => safeSetState(() {}),
+                        child: SignupcomponentWidget(
+                          parameter1: false,
                         ),
                       ),
                     if (responsiveVisibility(

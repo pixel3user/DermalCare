@@ -56,6 +56,36 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "camera",
+      "rootUri": "file:///home/slim/.pub-cache/hosted/pub.dev/camera-0.11.0+2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "camera_android_camerax",
+      "rootUri": "file:///home/slim/.pub-cache/hosted/pub.dev/camera_android_camerax-0.6.21",
+      "packageUri": "lib/",
+      "languageVersion": "3.8"
+    },
+    {
+      "name": "camera_avfoundation",
+      "rootUri": "file:///home/slim/.pub-cache/hosted/pub.dev/camera_avfoundation-0.9.21+2",
+      "packageUri": "lib/",
+      "languageVersion": "3.7"
+    },
+    {
+      "name": "camera_platform_interface",
+      "rootUri": "file:///home/slim/.pub-cache/hosted/pub.dev/camera_platform_interface-2.10.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "camera_web",
+      "rootUri": "file:///home/slim/.pub-cache/hosted/pub.dev/camera_web-0.3.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "characters",
       "rootUri": "file:///home/slim/.pub-cache/hosted/pub.dev/characters-1.4.0",
       "packageUri": "lib/",

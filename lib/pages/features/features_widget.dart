@@ -1,5 +1,6 @@
 import '/components/footer_widget.dart';
 import '/components/navbar_widget.dart';
+import '/components/utils/drawer_utils.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +51,15 @@ class _FeaturesWidgetState extends State<FeaturesWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        drawer: DrawerUtils.createMobileDrawer(
+          context: context,
+          onSearch: () async {
+            // Features page doesn't have search functionality
+          },
+          onItemSelect: () async {
+            // Features page doesn't have item selection
+          },
+        ),
         body: Stack(
           children: [
             SafeArea(

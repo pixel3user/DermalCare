@@ -144,7 +144,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 48.0),
                                     child: Text(
-                                      'Sign in to explore amazing features.',
+                                      'Sign in to start your personalized skincare journey with AI-powered analysis.',
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge

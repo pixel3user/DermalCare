@@ -90,7 +90,7 @@ class _BaseInputFieldWidgetState extends State<BaseInputFieldWidget> {
                         fontStyle:
                             FlutterFlowTheme.of(context).labelMedium.fontStyle,
                       ),
-                  hintText: 'Ask anything',
+                  hintText: 'Ask about your skin concerns...',
                   hintStyle: FlutterFlowTheme.of(context).labelLarge.override(
                         font: GoogleFonts.interTight(
                           fontWeight: FlutterFlowTheme.of(context)
@@ -317,7 +317,7 @@ class _BaseInputFieldWidgetState extends State<BaseInputFieldWidget> {
                           SnackBarAction? action;
                           
                           if (kIsWeb) {
-                            message = 'Speech recognition is not available. Please ensure you are using Chrome, Edge, or Safari with microphone access enabled. Some browsers may not support speech recognition.';
+                            message = 'Voice input is not available. Please ensure you are using Chrome, Edge, or Safari with microphone access enabled for skin analysis voice commands.';
                             action = SnackBarAction(
                               label: 'Retry',
                               textColor: Colors.white,

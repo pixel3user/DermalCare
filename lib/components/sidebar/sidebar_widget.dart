@@ -126,7 +126,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                         onPressed: () async {
                           await widget.onNewChat?.call();
                         },
-                        text: 'New Chat',
+                        text: 'New Skin Analysis',
                         icon: Icon(
                           Icons.add,
                           size: 16.0,

@@ -7,6 +7,11 @@ import '/components/sidebar/sidebar_widget.dart';
 import '/components/sidebar_mobile/sidebar_mobile_widget.dart';
 import '/components/utils/attachments/attachments_widget.dart';
 import '/components/utils/base_input_field/base_input_field_widget.dart';
+import '/components/modals/skin_analysis_modal/skin_analysis_modal_widget.dart';
+import '/components/modals/skincare_tips_modal/skincare_tips_modal_widget.dart';
+import '/components/modals/product_recommendations_modal/product_recommendations_modal_widget.dart';
+import '/components/modals/upload_photo_modal/upload_photo_modal_widget.dart';
+import '/components/utils/drawer_utils.dart';
 import '/demo/demo_chat/demo_chat_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -101,30 +106,21 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
-        drawer: Drawer(
-          elevation: 16.0,
-          child: wrapWithModel(
-            model: _model.sidebarMobileModel,
-            updateCallback: () => safeSetState(() {}),
-            child: SidebarMobileWidget(
-              onNewChat: () async {
-                Navigator.pop(context);
-                _model.showEmptyChat = true;
-                safeSetState(() {});
-              },
-              onSearch: () async {
-                _model.showSearchModal = true;
-                safeSetState(() {});
-                Navigator.pop(context);
-              },
-              onItemSelect: () async {
-                Navigator.pop(context);
-                _model.showEmptyChat = false;
-                _model.showResponseLoading = false;
-                safeSetState(() {});
-              },
-            ),
-          ),
+        drawer: DrawerUtils.createMobileDrawer(
+          context: context,
+          onSearch: () async {
+            _model.showSearchModal = true;
+            safeSetState(() {});
+          },
+          onItemSelect: () async {
+            _model.showEmptyChat = false;
+            _model.showResponseLoading = false;
+            safeSetState(() {});
+          },
+          onNewChat: () async {
+            _model.showEmptyChat = true;
+            safeSetState(() {});
+          },
         ),
         body: SafeArea(
           top: true,
@@ -142,7 +138,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                       child: wrapWithModel(
                         model: _model.sidebarModel,
                         updateCallback: () => safeSetState(() {}),
-                        child: SidebarWidget(
+                        child: DrawerUtils.createDesktopSidebar(
                           onNewChat: () async {
                             _model.showEmptyChat = true;
                             safeSetState(() {});
@@ -174,8 +170,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                           child: Builder(
                             builder: (context) {
                               if (_model.showEmptyChat) {
-                                return Align(
-                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                return Center(
                                   child: Container(
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
@@ -187,6 +182,22 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                         child: EmptyChatStateWidget(
                                           onItemPress: () async {
                                             _model.showEmptyChat = false;
+                                            safeSetState(() {});
+                                          },
+                                          onSkinAnalysis: () async {
+                                            _model.showSkinAnalysisModal = true;
+                                            safeSetState(() {});
+                                          },
+                                          onUploadPhoto: () async {
+                                            _model.showUploadPhotoModal = true;
+                                            safeSetState(() {});
+                                          },
+                                          onSkincareTips: () async {
+                                            _model.showSkincareTipsModal = true;
+                                            safeSetState(() {});
+                                          },
+                                          onProductRecommendations: () async {
+                                            _model.showProductRecommendationsModal = true;
                                             safeSetState(() {});
                                           },
                                         ),
@@ -352,12 +363,23 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                   ),
                                 ].divide(SizedBox(height: 8.0)),
                               ),
-                              Text(
-                                'Dermacare can make mistakes. Check important info.',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodySmall
-                                    .override(
-                                      font: GoogleFonts.interTight(
+                              Center(
+                                child: Text(
+                                  'DermalCare provides AI-powered skincare analysis. Consult a dermatologist for medical concerns.',
+                                  textAlign: TextAlign.center,
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodySmall
+                                      .override(
+                                        font: GoogleFonts.interTight(
+                                          fontWeight: FlutterFlowTheme.of(context)
+                                              .bodySmall
+                                              .fontWeight,
+                                          fontStyle: FlutterFlowTheme.of(context)
+                                              .bodySmall
+                                              .fontStyle,
+                                        ),
+                                        color: Color(0x80FFFFFF),
+                                        letterSpacing: 0.0,
                                         fontWeight: FlutterFlowTheme.of(context)
                                             .bodySmall
                                             .fontWeight,
@@ -365,15 +387,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                                             .bodySmall
                                             .fontStyle,
                                       ),
-                                      color: Color(0x80FFFFFF),
-                                      letterSpacing: 0.0,
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodySmall
-                                          .fontStyle,
-                                    ),
+                                ),
                               ),
                             ].divide(SizedBox(height: 16.0)),
                           ),
@@ -395,6 +409,55 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                     onItemSelect: () async {
                       _model.showEmptyChat = false;
                       _model.showResponseLoading = false;
+                      safeSetState(() {});
+                    },
+                  ),
+                ),
+              if (_model.showSkinAnalysisModal)
+                wrapWithModel(
+                  model: _model.skinAnalysisModalModel,
+                  updateCallback: () => safeSetState(() {}),
+                  child: SkinAnalysisModalWidget(
+                    onClose: () async {
+                      _model.showSkinAnalysisModal = false;
+                      safeSetState(() {});
+                    },
+                  ),
+                ),
+              if (_model.showSkincareTipsModal)
+                wrapWithModel(
+                  model: _model.skincareTipsModalModel,
+                  updateCallback: () => safeSetState(() {}),
+                  child: SkincareTipsModalWidget(
+                    onClose: () async {
+                      _model.showSkincareTipsModal = false;
+                      safeSetState(() {});
+                    },
+                  ),
+                ),
+              if (_model.showProductRecommendationsModal)
+                wrapWithModel(
+                  model: _model.productRecommendationsModalModel,
+                  updateCallback: () => safeSetState(() {}),
+                  child: ProductRecommendationsModalWidget(
+                    onClose: () async {
+                      _model.showProductRecommendationsModal = false;
+                      safeSetState(() {});
+                    },
+                  ),
+                ),
+              if (_model.showUploadPhotoModal)
+                wrapWithModel(
+                  model: _model.uploadPhotoModalModel,
+                  updateCallback: () => safeSetState(() {}),
+                  child: UploadPhotoModalWidget(
+                    onClose: () async {
+                      _model.showUploadPhotoModal = false;
+                      safeSetState(() {});
+                    },
+                    onPhotoUploaded: (String imageUrl) async {
+                      _model.showUploadPhotoModal = false;
+                      _model.showEmptyChat = false;
                       safeSetState(() {});
                     },
                   ),

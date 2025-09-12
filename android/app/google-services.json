@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "143419068550-eo31tks1sjkvhbkn7lelptdqokobh1bg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dermalcare.dermalcare",
+            "certificate_hash": "bb4ebe39375681212d9bc6ad35d015e87dc49b55"
+          }
+        },
+        {
           "client_id": "143419068550-hjol0d8ursjbkl9o7jim884c6hlu3i7f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

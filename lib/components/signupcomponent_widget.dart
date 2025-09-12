@@ -95,17 +95,35 @@ class _SignupcomponentWidgetState extends State<SignupcomponentWidget> {
                     alignment: AlignmentDirectional(0.0, 0.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        GoRouter.of(context).prepareAuthEvent();
-                        final user =
-                            await authManager.signInWithGoogle(context);
-                        if (user == null) {
-                          return;
-                        }
-                        FFAppState().authTokenState = '';
-                        safeSetState(() {});
+                        try {
+                          GoRouter.of(context).prepareAuthEvent();
+                          final user =
+                              await authManager.signInWithGoogle(context);
+                          if (user == null) {
+                            print('Google Sign-In failed: user is null');
+                            return;
+                          }
+                          print('Google Sign-In successful: ${user.uid}');
+                          
+                          // Clear any existing auth token state
+                          FFAppState().authTokenState = '';
+                          safeSetState(() {});
 
-                        context.goNamedAuth(
-                            MainWidget.routeName, context.mounted);
+                          // Navigate to main page after successful authentication
+                          if (context.mounted) {
+                            context.goNamedAuth(
+                                MainWidget.routeName, context.mounted);
+                          }
+                        } catch (e) {
+                          print('Google Sign-In error: $e');
+                          // Show error message to user
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Sign-in failed. Please try again.'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
                       },
                       text: 'Continue with Google',
                       options: FFButtonOptions(

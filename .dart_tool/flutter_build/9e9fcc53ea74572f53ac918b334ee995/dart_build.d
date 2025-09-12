@@ -1,0 +1,1 @@
+ /home/slim/github/DermalCare/.dart_tool/flutter_build/9e9fcc53ea74572f53ac918b334ee995/dart_build_result.json: 
