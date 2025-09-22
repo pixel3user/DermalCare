@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'services/language_service.dart';
 
 class FFAppState extends ChangeNotifier {
   static FFAppState _instance = FFAppState._internal();
@@ -19,6 +20,9 @@ class FFAppState extends ChangeNotifier {
     _safeInit(() {
       _authTokenState = prefs.getString('ff_authTokenState') ?? _authTokenState;
     });
+    
+    // Initialize language service
+    await LanguageService().initialize();
   }
 
   void update(VoidCallback callback) {

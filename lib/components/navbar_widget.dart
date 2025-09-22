@@ -4,7 +4,11 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'navbar_model.dart';
+import 'language_toggle_button.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 export 'navbar_model.dart';
 
 class NavbarWidget extends StatefulWidget {
@@ -40,7 +44,9 @@ class _NavbarWidgetState extends State<NavbarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return Container(
       width: double.infinity,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
@@ -60,7 +66,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                   size: 32.0,
                 ),
                 Text(
-                  'DermalCare',
+                  TranslationService.getText('app_title', context),
                   style: FlutterFlowTheme.of(context).titleLarge.override(
                         font: GoogleFonts.interTight(
                           fontWeight: FontWeight.bold,
@@ -96,7 +102,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                     );
                   },
                   child: Text(
-                    'Features',
+                    TranslationService.getText('features', context),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.interTight(
                             fontWeight: FontWeight.w500,
@@ -129,7 +135,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                     );
                   },
                   child: Text(
-                    'About',
+                    TranslationService.getText('about', context),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.interTight(
                             fontWeight: FontWeight.w500,
@@ -162,7 +168,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                     );
                   },
                   child: Text(
-                    'Pricing',
+                    TranslationService.getText('pricing', context),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           font: GoogleFonts.interTight(
                             fontWeight: FontWeight.w500,
@@ -179,7 +185,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                   ),
                 ),
                 Text(
-                  'Contact',
+                  TranslationService.getText('contact', context),
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         font: GoogleFonts.interTight(
                           fontWeight: FontWeight.w500,
@@ -198,6 +204,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
             Row(
               mainAxisSize: MainAxisSize.max,
               children: [
+                const LanguageToggleButton(),
                 FFButtonWidget(
                   onPressed: () async {
                     context.pushNamed(
@@ -210,7 +217,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                       },
                     );
                   },
-                  text: 'Sign In',
+                  text: TranslationService.getText('sign_in', context),
                   options: FFButtonOptions(
                     height: 40.0,
                     padding:
@@ -255,7 +262,7 @@ class _NavbarWidgetState extends State<NavbarWidget> {
                       },
                     );
                   },
-                  text: 'Start Free Analysis',
+                  text: TranslationService.getText('start_free_analysis', context),
                   options: FFButtonOptions(
                     height: 40.0,
                     padding:
@@ -292,6 +299,8 @@ class _NavbarWidgetState extends State<NavbarWidget> {
           ],
         ),
       ),
+    );
+      },
     );
   }
 }

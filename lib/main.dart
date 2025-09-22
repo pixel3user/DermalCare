@@ -11,6 +11,7 @@ import 'auth/firebase_auth/auth_util.dart';
 import 'backend/firebase/firebase_config.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/font_config.dart';
+import 'services/language_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,10 +32,15 @@ void main() async {
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => appState,
-    child: MyApp(),
-  ));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => appState),
+        ChangeNotifierProvider(create: (context) => LanguageService()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -106,42 +112,50 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'DermalCare',
-      scrollBehavior: MyAppScrollBehavior(),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('en', '')],
-      theme: FontConfig.getTheme(
-        brightness: Brightness.light,
-        useMaterial3: false,
-      ).copyWith(
-        appBarTheme: const AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: Colors.white,
-            statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.light,
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'DermalCare',
+          scrollBehavior: MyAppScrollBehavior(),
+          locale: languageService.currentLocale,
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', ''),
+            Locale('zh', 'CN'),
+          ],
+          theme: FontConfig.getTheme(
+            brightness: Brightness.light,
+            useMaterial3: false,
+          ).copyWith(
+            appBarTheme: const AppBarTheme(
+              systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Colors.white,
+                statusBarIconBrightness: Brightness.dark,
+                statusBarBrightness: Brightness.light,
+              ),
+            ),
           ),
-        ),
-      ),
-      darkTheme: FontConfig.getTheme(
-        brightness: Brightness.dark,
-        useMaterial3: false,
-      ).copyWith(
-        appBarTheme: const AppBarTheme(
-          systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: Colors.white,
-            statusBarIconBrightness: Brightness.dark,
-            statusBarBrightness: Brightness.light,
+          darkTheme: FontConfig.getTheme(
+            brightness: Brightness.dark,
+            useMaterial3: false,
+          ).copyWith(
+            appBarTheme: const AppBarTheme(
+              systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Colors.white,
+                statusBarIconBrightness: Brightness.dark,
+                statusBarBrightness: Brightness.light,
+              ),
+            ),
           ),
-        ),
-      ),
-      themeMode: _themeMode,
-      routerConfig: _router,
+          themeMode: _themeMode,
+          routerConfig: _router,
+        );
+      },
     );
   }
 }

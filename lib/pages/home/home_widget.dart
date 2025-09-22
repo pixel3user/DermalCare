@@ -8,6 +8,9 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 import 'home_model.dart';
 export 'home_model.dart';
 
@@ -55,7 +58,9 @@ class _HomeWidgetState extends State<HomeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
         FocusManager.instance.primaryFocus?.unfocus();
@@ -138,7 +143,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                           ),
                                           SizedBox(height: 16),
                                           Text(
-                                            'Video Background',
+                                            TranslationService.getText('video_background', context),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Colors.white,
@@ -148,7 +153,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                           ),
                                           SizedBox(height: 8),
                                           Text(
-                                            'Tap to play',
+                                            TranslationService.getText('tap_to_play', context),
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                               color: Colors.white70,
@@ -225,7 +230,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       crossAxisAlignment: CrossAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'AI-Powered Skincare Solutions',
+                                          TranslationService.getText('hero_title', context),
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.of(context)
                                               .displayLarge
@@ -253,7 +258,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                               ),
                                         ),
                                         Text(
-                                          'Get personalized skincare recommendations, track your skin health, and chat with our AI dermatologist assistant 24/7',
+                                          TranslationService.getText('hero_subtitle', context),
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.of(context)
                                               .titleMedium
@@ -311,7 +316,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         },
                                                       );
                                                     },
-                                                    text: 'Start Free Analysis',
+                                                    text: TranslationService.getText('start_free_analysis', context),
                                                     icon: Icon(
                                                       Icons.camera_alt_outlined,
                                                       size: 20.0,
@@ -368,7 +373,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     onPressed: () {
                                                       print('Button pressed ...');
                                                     },
-                                                    text: 'Watch Demo',
+                                                    text: TranslationService.getText('watch_demo', context),
                                                     icon: Icon(
                                                       Icons.play_arrow_rounded,
                                                       size: 20.0,
@@ -443,7 +448,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         },
                                                       );
                                                     },
-                                                    text: 'Start Free Analysis',
+                                                    text: TranslationService.getText('start_free_analysis', context),
                                                     icon: Icon(
                                                       Icons.camera_alt_outlined,
                                                       size: 20.0,
@@ -498,7 +503,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                     onPressed: () {
                                                       print('Button pressed ...');
                                                     },
-                                                    text: 'Watch Demo',
+                                                    text: TranslationService.getText('watch_demo', context),
                                                     icon: Icon(
                                                       Icons.play_arrow_rounded,
                                                       size: 20.0,
@@ -601,7 +606,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Powerful AI Features',
+                                      TranslationService.getText('features_title', context),
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .displaySmall
@@ -624,7 +629,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                           ),
                                     ),
                                     Text(
-                                      'Discover how our advanced AI technology can transform your skincare routine',
+                                      TranslationService.getText('features_desc', context),
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
@@ -705,7 +710,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 size: 48.0,
                                               ),
                                               Text(
-                                                'AI Chatbot',
+                                                TranslationService.getText('ai_chatbot', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -735,7 +740,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         ),
                                               ),
                                               Text(
-                                                'Get instant answers to your skincare questions from our AI dermatologist',
+                                                TranslationService.getText('ai_chatbot_desc', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -814,7 +819,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 size: 48.0,
                                               ),
                                               Text(
-                                                'Skin Analysis',
+                                                TranslationService.getText('skin_analysis', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -844,7 +849,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         ),
                                               ),
                                               Text(
-                                                'Upload photos for detailed skin analysis and personalized recommendations',
+                                                TranslationService.getText('skin_analysis_desc', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -922,7 +927,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 size: 48.0,
                                               ),
                                               Text(
-                                                'Progress Tracking',
+                                                TranslationService.getText('progress_tracking', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -952,7 +957,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         ),
                                               ),
                                               Text(
-                                                'Monitor your skin improvement journey with detailed analytics and insights',
+                                                TranslationService.getText('progress_tracking_desc', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -1030,7 +1035,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 size: 48.0,
                                               ),
                                               Text(
-                                                'Smart Recommendations',
+                                                TranslationService.getText('smart_recommendations', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -1060,7 +1065,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         ),
                                               ),
                                               Text(
-                                                'Receive AI-powered product suggestions tailored to your unique skin type',
+                                                TranslationService.getText('smart_recommendations_desc', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -1138,7 +1143,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 size: 48.0,
                                               ),
                                               Text(
-                                                'Routine Planner',
+                                                TranslationService.getText('routine_planner', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -1168,7 +1173,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         ),
                                               ),
                                               Text(
-                                                'Create and manage your personalized skincare routine with AI guidance',
+                                                TranslationService.getText('routine_planner_desc', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -1246,7 +1251,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                 size: 48.0,
                                               ),
                                               Text(
-                                                'Privacy First',
+                                                TranslationService.getText('privacy_first', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -1276,7 +1281,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                                         ),
                                               ),
                                               Text(
-                                                'Your skin data is encrypted and secure with enterprise-grade protection',
+                                                TranslationService.getText('privacy_first_desc', context),
                                                 textAlign: TextAlign.center,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -1348,7 +1353,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Ready to Transform Your Skin?',
+                                      TranslationService.getText('cta_title', context),
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .displaySmall
@@ -1371,7 +1376,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                           ),
                                     ),
                                     Text(
-                                      'Join thousands of users who have improved their skin health with our AI technology',
+                                      TranslationService.getText('cta_desc', context),
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
@@ -1409,7 +1414,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       onPressed: () {
                                         print('Button pressed ...');
                                       },
-                                      text: 'Start Your Journey',
+                                      text: TranslationService.getText('start_journey', context),
                                       options: FFButtonOptions(
                                         height: 56.0,
                                         padding: EdgeInsetsDirectional.fromSTEB(
@@ -1455,7 +1460,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                                       onPressed: () {
                                         print('Button pressed ...');
                                       },
-                                      text: 'Learn More',
+                                      text: TranslationService.getText('learn_more', context),
                                       options: FFButtonOptions(
                                         height: 56.0,
                                         padding: EdgeInsetsDirectional.fromSTEB(
@@ -1524,6 +1529,8 @@ class _HomeWidgetState extends State<HomeWidget> {
           ],
         ),
       ),
+    );
+      },
     );
   }
 }

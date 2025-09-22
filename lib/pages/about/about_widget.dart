@@ -4,6 +4,9 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 import 'about_model.dart';
 export 'about_model.dart';
 
@@ -42,7 +45,9 @@ class _AboutWidgetState extends State<AboutWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
         FocusManager.instance.primaryFocus?.unfocus();
@@ -116,7 +121,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 16.0),
                                         child: Text(
-                                          'About DermalCare',
+                                          TranslationService.getText('about_title', context),
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.of(context)
                                               .headlineMedium
@@ -149,7 +154,7 @@ class _AboutWidgetState extends State<AboutWidget> {
                                         ),
                                       ),
                                       Text(
-                                        'Advanced AI-powered dermatology solutions for accurate skin condition analysis and personalized treatment recommendations.',
+                                        TranslationService.getText('about_desc', context),
                                         textAlign: TextAlign.center,
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
@@ -1754,6 +1759,8 @@ class _AboutWidgetState extends State<AboutWidget> {
           ],
         ),
       ),
+    );
+      },
     );
   }
 }
