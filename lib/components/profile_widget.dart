@@ -5,6 +5,9 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 import 'profile_model.dart';
 export 'profile_model.dart';
 
@@ -45,7 +48,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return Container(
       decoration: BoxDecoration(
         color: Colors.transparent,
       ),
@@ -82,7 +87,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                         child: Align(
                           alignment: AlignmentDirectional(0.0, 0.0),
                           child: Text(
-                            'Profile Settings',
+                            TranslationService.getText('profile_settings', context),
                             style: FlutterFlowTheme.of(context)
                                 .headlineMedium
                                 .override(
@@ -137,7 +142,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Sarah Johnson',
+                                TranslationService.getText('user_name', context),
                                 style: FlutterFlowTheme.of(context)
                                     .titleLarge
                                     .override(
@@ -159,7 +164,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                     ),
                               ),
                               Text(
-                                'sarah.johnson@email.com',
+                                TranslationService.getText('user_email', context),
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
@@ -183,7 +188,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                     ),
                               ),
                               Text(
-                                'Premium Member',
+                                TranslationService.getText('premium_member', context),
                                 style: FlutterFlowTheme.of(context)
                                     .labelSmall
                                     .override(
@@ -227,7 +232,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                       child: Text(
-                        'Account Information',
+                        TranslationService.getText('account_information', context),
                         style: FlutterFlowTheme.of(context).labelLarge.override(
                               font: GoogleFonts.interTight(
                                 fontWeight: FlutterFlowTheme.of(context)
@@ -266,7 +271,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Full Name',
+                                    TranslationService.getText('full_name', context),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -292,75 +297,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         ),
                                   ),
                                   Text(
-                                    'Sarah Johnson',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.interTight(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryText,
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                  ),
-                                ],
-                              ),
-                              Container(
-                                width: double.infinity,
-                                height: 1.0,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context).alternate,
-                                ),
-                              ),
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Email Address',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.interTight(
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                          letterSpacing: 0.0,
-                                          fontWeight:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontWeight,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                  ),
-                                  Text(
-                                    'sarah.johnson@email.com',
+                                    TranslationService.getText('user_name', context),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -402,7 +339,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Phone Number',
+                                    TranslationService.getText('email_address', context),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -428,7 +365,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         ),
                                   ),
                                   Text(
-                                    '+1 (555) 123-4567',
+                                    TranslationService.getText('user_email', context),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -470,7 +407,75 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Date of Birth',
+                                    TranslationService.getText('phone_number', context),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.interTight(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                  ),
+                                  Text(
+                                    TranslationService.getText('user_phone', context),
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.interTight(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryText,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                width: double.infinity,
+                                height: 1.0,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                ),
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    TranslationService.getText('date_of_birth', context),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(

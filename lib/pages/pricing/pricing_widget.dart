@@ -6,6 +6,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 import 'pricing_model.dart';
 export 'pricing_model.dart';
 
@@ -44,7 +47,9 @@ class _PricingWidgetState extends State<PricingWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
         FocusManager.instance.primaryFocus?.unfocus();
@@ -106,7 +111,7 @@ class _PricingWidgetState extends State<PricingWidget> {
                                               alignment: AlignmentDirectional(
                                                   -1.0, -1.0),
                                               child: Text(
-                                                'AI-Powered Skin Analysis',
+                                                TranslationService.getText('ai_analysis', context),
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
@@ -171,7 +176,7 @@ class _PricingWidgetState extends State<PricingWidget> {
                                             alignment: AlignmentDirectional(
                                                 -1.0, -1.0),
                                             child: Text(
-                                              'Choose Your Plan',
+                                              TranslationService.getText('choose_plan', context),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .headlineMedium
@@ -207,7 +212,7 @@ class _PricingWidgetState extends State<PricingWidget> {
                                             ),
                                           ),
                                           Text(
-                                            'Start today',
+                                            TranslationService.getText('start_today', context),
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
@@ -1778,6 +1783,8 @@ class _PricingWidgetState extends State<PricingWidget> {
           ],
         ),
       ),
+    );
+      },
     );
   }
 }

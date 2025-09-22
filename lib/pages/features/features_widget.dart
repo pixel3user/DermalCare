@@ -5,6 +5,9 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 import 'features_model.dart';
 export 'features_model.dart';
 
@@ -43,7 +46,9 @@ class _FeaturesWidgetState extends State<FeaturesWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
         FocusManager.instance.primaryFocus?.unfocus();
@@ -78,7 +83,7 @@ class _FeaturesWidgetState extends State<FeaturesWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 40.0, 50.0, 40.0, 0.0),
                             child: Text(
-                              'Powerful AI Features \nfor Modern Dermatology',
+                              TranslationService.getText('features_page_title', context),
                               textAlign: TextAlign.center,
                               style: FlutterFlowTheme.of(context)
                                   .displayMedium
@@ -108,7 +113,7 @@ class _FeaturesWidgetState extends State<FeaturesWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 40.0, 0.0, 40.0, 0.0),
                             child: Text(
-                              'Discover the tools that transform skin health with instant AI insights, expert guidance, and seamless care.',
+                              TranslationService.getText('features_page_subtitle', context),
                               textAlign: TextAlign.center,
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -1163,6 +1168,8 @@ class _FeaturesWidgetState extends State<FeaturesWidget> {
           ],
         ),
       ),
+    );
+      },
     );
   }
 }

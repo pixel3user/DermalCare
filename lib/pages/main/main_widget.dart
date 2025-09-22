@@ -20,6 +20,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 import 'main_model.dart';
 export 'main_model.dart';
 
@@ -98,7 +100,9 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     context.watch<FFAppState>();
 
-    return GestureDetector(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
         FocusManager.instance.primaryFocus?.unfocus();
@@ -365,7 +369,7 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
                               ),
                               Center(
                                 child: Text(
-                                  'DermalCare provides AI-powered skincare analysis. Consult a dermatologist for medical concerns.',
+                                  TranslationService.getText('ai_disclaimer', context),
                                   textAlign: TextAlign.center,
                                   style: FlutterFlowTheme.of(context)
                                       .bodySmall
@@ -466,6 +470,8 @@ class _MainWidgetState extends State<MainWidget> with TickerProviderStateMixin {
           ),
         ),
       ),
+    );
+      },
     );
   }
 }

@@ -6,6 +6,9 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 import 'sidebar_model.dart';
 export 'sidebar_model.dart';
 
@@ -51,7 +54,9 @@ class _SidebarWidgetState extends State<SidebarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return Container(
       width: _model.isCollapse ? 80.0 : 260.0,
       height: MediaQuery.sizeOf(context).height * 1.0,
       decoration: BoxDecoration(
@@ -194,7 +199,7 @@ class _SidebarWidgetState extends State<SidebarWidget> {
                             size: 24.0,
                           ),
                           Text(
-                            'Store',
+                            TranslationService.getText('store', context),
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
@@ -248,6 +253,8 @@ class _SidebarWidgetState extends State<SidebarWidget> {
           ].divide(SizedBox(height: _model.isCollapse ? 12.0 : 48.0)),
         ),
       ),
+    );
+      },
     );
   }
 }

@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
+import '/pages/home/home_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'footer_model.dart';
@@ -62,34 +63,47 @@ class _FooterWidgetState extends State<FooterWidget> {
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Icon(
-                              Icons.auto_awesome_rounded,
-                              color: FlutterFlowTheme.of(context).primary,
-                              size: 32.0,
-                            ),
-                            Text(
-                              'DermalCare',
-                              style: FlutterFlowTheme.of(context)
-                                  .titleLarge
-                                  .override(
-                                    font: GoogleFonts.interTight(
+                        GestureDetector(
+                          onTap: () async {
+                            context.pushNamed(
+                              HomeWidget.routeName,
+                              extra: <String, dynamic>{
+                                kTransitionInfoKey: TransitionInfo(
+                                  hasTransition: true,
+                                  transitionType: PageTransitionType.fade,
+                                ),
+                              },
+                            );
+                          },
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Icon(
+                                Icons.auto_awesome_rounded,
+                                color: FlutterFlowTheme.of(context).primary,
+                                size: 32.0,
+                              ),
+                              Text(
+                                'DermalCare',
+                                style: FlutterFlowTheme.of(context)
+                                    .titleLarge
+                                    .override(
+                                      font: GoogleFonts.interTight(
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleLarge
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context).primary,
+                                      letterSpacing: 0.0,
                                       fontWeight: FontWeight.bold,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .titleLarge
                                           .fontStyle,
                                     ),
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .titleLarge
-                                        .fontStyle,
-                                  ),
-                            ),
-                          ].divide(SizedBox(width: 8.0)),
+                              ),
+                            ].divide(SizedBox(width: 8.0)),
+                          ),
                         ),
                         Text(
                           'Advanced AI technology for personalized skincare solutions and professional dermatology guidance.',

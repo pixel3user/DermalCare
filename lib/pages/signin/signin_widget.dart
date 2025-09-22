@@ -5,6 +5,9 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 import 'signin_model.dart';
 export 'signin_model.dart';
 
@@ -52,7 +55,9 @@ class _SigninWidgetState extends State<SigninWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
         FocusManager.instance.primaryFocus?.unfocus();
@@ -119,7 +124,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 32.0, 0.0, 8.0),
                                     child: Text(
-                                      'Welcome to DermalCare',
+                                      TranslationService.getText('welcome_to_dermacare', context),
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .displayLarge
@@ -147,7 +152,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 48.0),
                                     child: Text(
-                                      'Sign in to start your personalized skincare journey with AI-powered analysis.',
+                                      TranslationService.getText('signin_subtitle', context),
                                       textAlign: TextAlign.center,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyLarge
@@ -285,7 +290,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Already have an account? ',
+                                      TranslationService.getText('already_have_account', context),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
@@ -313,7 +318,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                           ),
                                     ),
                                     Text(
-                                      'Sign In',
+                                      TranslationService.getText('sign_in', context),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
@@ -348,7 +353,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    'By continuing, you agree to our ',
+                                    TranslationService.getText('agree_to_terms', context),
                                     style: FlutterFlowTheme.of(context)
                                         .labelSmall
                                         .override(
@@ -377,7 +382,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                         ),
                                   ),
                                   Text(
-                                    'Terms of Service',
+                                    TranslationService.getText('terms_of_service', context),
                                     style: FlutterFlowTheme.of(context)
                                         .labelSmall
                                         .override(
@@ -428,7 +433,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 32.0, 0.0, 8.0),
                                         child: Text(
-                                          'Welcome to DermalCare',
+                                          TranslationService.getText('welcome_to_dermacare', context),
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.of(context)
                                               .displayLarge
@@ -458,7 +463,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 0.0, 48.0),
                                         child: Text(
-                                          'Log in to start your personalized skincare journey with AI-powered analysis.',
+                                          TranslationService.getText('signin_subtitle', context),
                                           textAlign: TextAlign.center,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyLarge
@@ -637,7 +642,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Text(
-                                              'Don\'t have an account? ',
+                                              TranslationService.getText('dont_have_account', context),
                                               style: FlutterFlowTheme.of(
                                                       context)
                                                   .bodyMedium
@@ -1377,6 +1382,8 @@ class _SigninWidgetState extends State<SigninWidget> {
           ),
         ),
       ),
+    );
+      },
     );
   }
 }

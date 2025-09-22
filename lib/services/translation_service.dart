@@ -408,6 +408,50 @@ class TranslationService {
       'en': 'Enterprise',
       'zh': '企业版',
     },
+    'features_page_title': {
+      'en': 'Powerful AI Features \nfor Modern Dermatology',
+      'zh': '强大的AI功能\n现代皮肤科',
+    },
+    'features_page_subtitle': {
+      'en': 'Discover the tools that transform skin health with instant AI insights, expert guidance, and seamless care.',
+      'zh': '发现通过即时AI洞察、专家指导和无缝护理改变皮肤健康的工具。',
+    },
+    'start_today': {
+      'en': 'Start today',
+      'zh': '今天开始',
+    },
+    'welcome_to_dermacare': {
+      'en': 'Welcome to DermalCare',
+      'zh': '欢迎来到皮肤护理',
+    },
+    'signin_subtitle': {
+      'en': 'Sign in to start your personalized skincare journey with AI-powered analysis.',
+      'zh': '登录开始您的个性化护肤之旅，享受AI驱动的分析。',
+    },
+    'already_have_account': {
+      'en': 'Already have an account? ',
+      'zh': '已有账户？',
+    },
+    'agree_to_terms': {
+      'en': 'By continuing, you agree to our ',
+      'zh': '继续即表示您同意我们的',
+    },
+    'terms_of_service': {
+      'en': 'Terms of Service',
+      'zh': '服务条款',
+    },
+    'signup_subtitle': {
+      'en': 'Sign up to explore amazing features.',
+      'zh': '注册探索精彩功能。',
+    },
+    'dont_have_account': {
+      'en': 'Don\'t have an account? ',
+      'zh': '没有账户？',
+    },
+    'ai_disclaimer': {
+      'en': 'DermalCare provides AI-powered skincare analysis. Consult a dermatologist for medical concerns.',
+      'zh': '皮肤护理提供AI驱动的护肤分析。如有医疗问题，请咨询皮肤科医生。',
+    },
   };
 
   static String getText(String key, BuildContext context) {

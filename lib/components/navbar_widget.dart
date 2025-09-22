@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/index.dart';
+import '/pages/home/home_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -57,30 +58,43 @@ class _NavbarWidgetState extends State<NavbarWidget> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Icon(
-                  Icons.auto_awesome_rounded,
-                  color: FlutterFlowTheme.of(context).primary,
-                  size: 32.0,
-                ),
-                Text(
-                  TranslationService.getText('app_title', context),
-                  style: FlutterFlowTheme.of(context).titleLarge.override(
-                        font: GoogleFonts.interTight(
+            GestureDetector(
+              onTap: () async {
+                context.pushNamed(
+                  HomeWidget.routeName,
+                  extra: <String, dynamic>{
+                    kTransitionInfoKey: TransitionInfo(
+                      hasTransition: true,
+                      transitionType: PageTransitionType.fade,
+                    ),
+                  },
+                );
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Icon(
+                    Icons.auto_awesome_rounded,
+                    color: FlutterFlowTheme.of(context).primary,
+                    size: 32.0,
+                  ),
+                  Text(
+                    TranslationService.getText('app_title', context),
+                    style: FlutterFlowTheme.of(context).titleLarge.override(
+                          font: GoogleFonts.interTight(
+                            fontWeight: FontWeight.bold,
+                            fontStyle:
+                                FlutterFlowTheme.of(context).titleLarge.fontStyle,
+                          ),
+                          color: FlutterFlowTheme.of(context).primary,
+                          letterSpacing: 0.0,
                           fontWeight: FontWeight.bold,
                           fontStyle:
                               FlutterFlowTheme.of(context).titleLarge.fontStyle,
                         ),
-                        color: FlutterFlowTheme.of(context).primary,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.bold,
-                        fontStyle:
-                            FlutterFlowTheme.of(context).titleLarge.fontStyle,
-                      ),
-                ),
-              ].divide(SizedBox(width: 8.0)),
+                  ),
+                ].divide(SizedBox(width: 8.0)),
+              ),
             ),
             Row(
               mainAxisSize: MainAxisSize.max,

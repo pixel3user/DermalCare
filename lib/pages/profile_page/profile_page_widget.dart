@@ -10,6 +10,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/pages/main/main_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:provider/provider.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 import 'profile_page_model.dart';
 export 'profile_page_model.dart';
 
@@ -63,7 +66,9 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
         FocusManager.instance.primaryFocus?.unfocus();
@@ -159,6 +164,8 @@ class _ProfilePageWidgetState extends State<ProfilePageWidget>
           ),
         ),
       ),
+    );
+      },
     );
   }
 }

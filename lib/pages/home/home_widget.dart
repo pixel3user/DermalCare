@@ -5,6 +5,7 @@ import '/components/utils/drawer_utils.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/flutter_flow_video_player.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -112,7 +113,7 @@ class _HomeWidgetState extends State<HomeWidget> {
                           Positioned.fill(
                             child: Stack(
                               children: [
-                                // Fallback background image
+                                // Fallback background gradient
                                 Positioned.fill(
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -128,40 +129,19 @@ class _HomeWidgetState extends State<HomeWidget> {
                                     ),
                                   ),
                                 ),
-                                // Video player with error handling
+                                // Video player with autoplay
                                 Positioned.fill(
-                                  child: Container(
-                                    color: Colors.black.withOpacity(0.3),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.play_circle_outline,
-                                            color: Colors.white,
-                                            size: 64,
-                                          ),
-                                          SizedBox(height: 16),
-                                          Text(
-                                            TranslationService.getText('video_background', context),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                          SizedBox(height: 8),
-                                          Text(
-                                            TranslationService.getText('tap_to_play', context),
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              color: Colors.white70,
-                                              fontSize: 14,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                  child: ClipRect(
+                                    child: FlutterFlowVideoPlayer(
+                                      path: 'assets/videos/Premium_dermatology_tech_web.mp4',
+                                      videoType: VideoType.asset,
+                                      autoPlay: true,
+                                      looping: true,
+                                      showControls: false,
+                                      allowFullScreen: false,
+                                      allowPlaybackSpeedMenu: false,
+                                      lazyLoad: false,
+                                      pauseOnNavigate: false,
                                     ),
                                   ),
                                 ),
