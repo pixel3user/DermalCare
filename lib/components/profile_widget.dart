@@ -501,7 +501,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                                         ),
                                   ),
                                   Text(
-                                    'March 15, 1990',
+                                    TranslationService.getText('user_birth_date', context),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
@@ -544,7 +544,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                       padding:
                           EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                       child: Text(
-                        'Privacy & Security',
+                        TranslationService.getText('privacy_security', context),
                         style: FlutterFlowTheme.of(context).labelLarge.override(
                               font: GoogleFonts.interTight(
                                 fontWeight: FlutterFlowTheme.of(context)
@@ -1228,6 +1228,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
           ),
         ),
       ),
+    );
+      },
     );
   }
 }

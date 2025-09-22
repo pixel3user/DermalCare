@@ -452,6 +452,58 @@ class TranslationService {
       'en': 'DermalCare provides AI-powered skincare analysis. Consult a dermatologist for medical concerns.',
       'zh': '皮肤护理提供AI驱动的护肤分析。如有医疗问题，请咨询皮肤科医生。',
     },
+    'store': {
+      'en': 'Store',
+      'zh': '商店',
+    },
+    'profile_settings': {
+      'en': 'Profile Settings',
+      'zh': '个人资料设置',
+    },
+    'user_name': {
+      'en': 'Sarah Johnson',
+      'zh': '莎拉·约翰逊',
+    },
+    'user_email': {
+      'en': 'sarah.johnson@email.com',
+      'zh': 'sarah.johnson@email.com',
+    },
+    'premium_member': {
+      'en': 'Premium Member',
+      'zh': '高级会员',
+    },
+    'account_information': {
+      'en': 'Account Information',
+      'zh': '账户信息',
+    },
+    'full_name': {
+      'en': 'Full Name',
+      'zh': '全名',
+    },
+    'email_address': {
+      'en': 'Email Address',
+      'zh': '电子邮件地址',
+    },
+    'phone_number': {
+      'en': 'Phone Number',
+      'zh': '电话号码',
+    },
+    'user_phone': {
+      'en': '+1 (555) 123-4567',
+      'zh': '+1 (555) 123-4567',
+    },
+    'date_of_birth': {
+      'en': 'Date of Birth',
+      'zh': '出生日期',
+    },
+    'user_birth_date': {
+      'en': 'March 15, 1990',
+      'zh': '1990年3月15日',
+    },
+    'privacy_security': {
+      'en': 'Privacy & Security',
+      'zh': '隐私与安全',
+    },
   };
 
   static String getText(String key, BuildContext context) {

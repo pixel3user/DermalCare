@@ -7,6 +7,9 @@ import '/index.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '/services/language_service.dart';
+import '/services/translation_service.dart';
 import 'header_model.dart';
 export 'header_model.dart';
 
@@ -43,7 +46,9 @@ class _HeaderWidgetState extends State<HeaderWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Consumer<LanguageService>(
+      builder: (context, languageService, child) {
+        return Padding(
       padding: EdgeInsetsDirectional.fromSTEB(24.0, 24.0, 24.0, 8.0),
       child: Row(
         mainAxisSize: MainAxisSize.max,
@@ -161,8 +166,10 @@ class _HeaderWidgetState extends State<HeaderWidget> {
               ),
             ].divide(SizedBox(width: 5.0)),
           ),
-        ].divide(SizedBox(width: 16.0)),
+        ].divide(SizedBox(width: 16.0)        ),
       ),
+    );
+      },
     );
   }
 }
